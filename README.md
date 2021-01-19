@@ -1,5 +1,7 @@
 # d2l-program-outcomes-picker
 
+[![CI][CI Badge]][CI Workflows]
+
 A Lit Element webcomponent for importing learning outcomes from programs.
 
 ## Usage
@@ -60,3 +62,7 @@ The component emits the following events:
 
 `d2l-asn-outcomes-picker-cancel`: The close or cancel button was clicked.  
 `d2l-asn-outcomes-picker-import`: The import was completed successfully. Same format as `d2l-program-outcomes-picker-import` above.
+
+<!-- links -->
+[CI Badge]: https://github.com/Brightspace/program-outcomes-picker/workflows/CI/badge.svg?branch=master
+[CI Workflows]: https://github.com/Brightspace/program-outcomes-picker/actions?query=workflow%3ACI+branch%3Amaster

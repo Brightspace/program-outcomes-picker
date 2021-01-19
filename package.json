@@ -1,13 +1,16 @@
 {
   "name": "d2l-program-outcomes-picker",
   "version": "3.2.9",
+  "description": "A Lit Element webcomponent for importing learning outcomes from programs",
   "scripts": {
     "lang:build": "lang-build -edc langtools/config.json",
     "lang:copy": "lang-copy -svc langtools/config.json",
-    "lint": "eslint *.js internal/*.js",
+    "lint:eslint": "eslint *.js internal/*.js",
     "serve": "polymer serve --hostname 0.0.0.0",
     "demo": "parallelshell \"npm run serve\" \"sleepms 2000 && open-cli http://localhost:8081/components/d2l-program-outcomes-picker/demo/\""
   },
+  "author": "D2L Corporation",
+  "license": "Apache-2.0",
   "dependencies": {
     "@brightspace-ui/core": "^1.43.2",
     "d2l-alert": "github:BrightspaceUI/alert#semver:^4",
