@@ -1,0 +1,86 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+env:
+  NODE_VERSION: 14 # Latest LTS
+jobs:
+  lint:
+    name: Lint
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: Brightspace/third-party-actions@actions/checkout
+      - name: Set up node
+        uses: Brightspace/third-party-actions@actions/setup-node
+        with:
+          node-version: ${{env.NODE_VERSION}}
+      - name: Set up cache
+        uses: Brightspace/third-party-actions@actions/cache
+        id: cache
+        with:
+          path: '**/node_modules'
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Lint (JavaScript)
+        run: npm run lint:eslint
+  check-licenses:
+    name: Check Licenses
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: Brightspace/third-party-actions@actions/checkout
+      - name: Set up node
+        uses: Brightspace/third-party-actions@actions/setup-node
+        with:
+          node-version: ${{env.NODE_VERSION}}
+      - name: Set up cache
+        uses: Brightspace/third-party-actions@actions/cache
+        id: cache
+        with:
+          path: '**/node_modules'
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Check licenses
+        run: |
+          npm install d2l-license-checker --no-save
+          npx license-checker-ci
+  verify-languages:
+    name: Verify Languages
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: Brightspace/third-party-actions@actions/checkout
+      - name: Verify Languages
+        run: |
+          status=0
+          for lang in ./serge/*.json
+          do
+            tmpLang="$(basename $lang)"
+            echo "Verifying: $tmpLang"
+            tmpLang="./lang/${tmpLang/json/js.expected}"
+            printf "export default " | cat -s - "$lang" > "$tmpLang"
+            sed -i 's/\}\s*$/\};/' "$tmpLang"
+            diff -b -B "${tmpLang%.expected}" "$tmpLang"
+            if [ $? -ne 0 ]; then
+              echo "Failed: $tmpLang"
+              status=1
+            fi
+            rm "$tmpLang"
+          done
+          if [ $status -ne 0 ]; then
+            echo "Lang files do not match expected generated serge files" 1>&2
+            echo "Did you forget to run `npm run lang:build`?" 1>&2
+          else
+            echo "Lang files do match expected generated serge files"
+          fi
+          exit $status
