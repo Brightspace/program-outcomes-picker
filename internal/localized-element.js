@@ -1,21 +1,21 @@
 import { LitElement } from 'lit-element/lit-element.js';
 import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
 
-import ar from '../lang/ar.js';
-import da from '../lang/da.js';
-import de from '../lang/de.js';
-import en from '../lang/en.js';
-import es from '../lang/es.js';
-import fr from '../lang/fr.js';
-import ja from '../lang/ja.js';
-import ko from '../lang/ko.js';
-import nb from '../lang/nb.js';
-import nl from '../lang/nl.js';
-import pt from '../lang/pt.js';
-import sv from '../lang/sv.js';
-import tr from '../lang/tr.js';
-import zh from '../lang/zh.js';
-import zhTW from '../lang/zh-tw.js';
+import ar from '../build/lang/ar.js';
+import da from '../build/lang/da.js';
+import de from '../build/lang/de.js';
+import en from '../build/lang/en.js';
+import es from '../build/lang/es.js';
+import fr from '../build/lang/fr.js';
+import ja from '../build/lang/ja.js';
+import ko from '../build/lang/ko.js';
+import nb from '../build/lang/nb.js';
+import nl from '../build/lang/nl.js';
+import pt from '../build/lang/pt.js';
+import sv from '../build/lang/sv.js';
+import tr from '../build/lang/tr.js';
+import zh from '../build/lang/zh.js';
+import zhTW from '../build/lang/zh-tw.js';
 
 const FALLBACK_LANGUAGE = 'en';
 const translations = {

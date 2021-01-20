@@ -10,7 +10,7 @@
     "Close": "Fechar",
     "CloseDialog": "Fechar esta caixa de diálogo",
     "Collapse": "Minimizar",
-    "ConnectionError": "Opa! Estamos com problemas para conectar você. Recomendamos atualizar a página ou tentar novamente mais tarde.",
+    "ConnectionError": "Opa! Estamos com problemas para conectar você. Atualize a página ou tente novamente mais tarde.",
     "Delete": "Excluir",
     "DeleteOrphanedOutcomes": "Excluir {outcome, select, competencies {Competências} expectations {Expectativas} objectives {Objetivos} outcomes {Resultados} standards {Padrões} other {Padrões}}",
     "Disabled": "desabilitado",

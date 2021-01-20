@@ -1,12 +1,15 @@
 {
-	"name": "Program Outcomes Picker",
-	"source_dir": "serge",
-	"output_file_path": "serge/%LANG%.json",
+	"name": "program-outcomes-picker",
+	"source_dir": "lang/",
+	"output_file_path": "lang/%LANG%.json",
 	"output_lang_rewrite": [
 		"ar-sa ar",
+		"cy-gb cy",
 		"da-dk da",
 		"de-de de",
+		"es-es es-es",
 		"es-mx es",
+		"fr-fr fr-fr",
 		"fr-ca fr",
 		"ja-jp ja",
 		"ko-kr ko",
@@ -15,7 +18,7 @@
 		"pt-br pt",
 		"sv-se sv",
 		"tr-tr tr",
-		"zh-cn zh",
-		"zh-tw zh-tw"
+		"zh-tw zh-tw",
+		"zh-cn zh"
 	]
 }

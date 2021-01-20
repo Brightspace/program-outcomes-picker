@@ -11,7 +11,7 @@
     "CloseDialog": "Bu iletişim kutusunu kapat",
     "Collapse": "Daralt",
     "ConnectionError": "Üzgünüz! Bağlantı kurulurken bir sorunla karşılaşıldı. Sayfayı yenileyin veya daha sonra tekrar deneyin.",
-    "Delete": "Sil",
+    "Delete": "Sil:",
     "DeleteOrphanedOutcomes": "Sil {outcome, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}}",
     "Disabled": "devre dışı",
     "EducationLevel": "Eğitim Seviyesi",

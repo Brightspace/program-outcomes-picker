@@ -11,7 +11,7 @@
     "CloseDialog": "Dit dialoogvenster sluiten",
     "Collapse": "Samenvouwen",
     "ConnectionError": "Oeps! Er zijn problemen met het tot stand brengen van een verbinding. U kunt de pagina vernieuwen of het later opnieuw proberen.",
-    "Delete": "Verwijderen",
+    "Delete": "verwijderen",
     "DeleteOrphanedOutcomes": "Verwijder {outcome, select, competencies {Competenties} expectations {Verwachtingen} objectives {Doelstellingen} outcomes {Resultaten} standards {Standaarden} other {Standaarden}}",
     "Disabled": "uitgeschakeld",
     "EducationLevel": "Onderwijsniveau",
