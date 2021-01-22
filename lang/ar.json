@@ -10,7 +10,7 @@
     "Close": "إغلاق",
     "CloseDialog": "إغلاق مربع الحوار هذا",
     "Collapse": "طي",
-    "ConnectionError": "عذرًا! نواجه مشكلة في إنشاء الاتصال. ننصحك بتحديث الصفحة أو المحاولة مجددًا في وقت لاحق.",
+    "ConnectionError": "عذرًا! نواجه مشكلة في توصيلك. ننصحك بتحديث الصفحة أو المحاولة مجددًا في وقت لاحق.",
     "Delete": "حذف",
     "DeleteOrphanedOutcomes": "حذف {outcome, select, competencies {الكفاءات} expectations {التوقعات} objectives {الأهداف} outcomes {النتائج} standards {المعايير} other {المعايير}}",
     "Disabled": "تم التعطيل",

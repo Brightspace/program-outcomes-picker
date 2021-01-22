@@ -76,15 +76,15 @@ jobs:
       - name: Verify Languages
         run: |
           match=true
-          target_files=$(ls -1 lang/ | sed -e 's/\.js$//')
-          source_files=$(ls -1 serge/ | sed -e 's/\.json$//')
+          target_files=$(ls -1 build/lang/ | sed -e 's/\.js$//')
+          source_files=$(ls -1 lang/ | sed -e 's/\.json$//')
           all_files=$(echo -e "$target_files\n$source_files" | sort | uniq)
           missing_sources=()
           missing_targets=()
           echo 'Checking file sets match'
           for file in $all_files; do
-              source="serge/$file.json"
-              target="lang/$file.js"
+              source="lang/$file.json"
+              target="build/lang/$file.js"
               if [ ! -f "$source" ]; then
                   missing_sources+=($source)
               fi

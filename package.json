@@ -3,7 +3,7 @@
   "version": "3.2.9",
   "description": "A Lit Element webcomponent for importing learning outcomes from programs",
   "scripts": {
-    "lang:build": "lang-build -es \"\t\" -c langtools/config.json",
+    "lang:build": "lang-build -eds \"\t\" -c langtools/config.json",
     "lang:copy": "lang-copy -svc langtools/config.json",
     "lint:eslint": "eslint . --ext .js,.html",
     "start": "es-dev-server --app-index demo/index.html --node-resolve --dedupe --watch --open"
