@@ -1,11 +1,11 @@
-import { css, html } from 'lit-element/lit-element.js';
+import { LitElement, css, html } from 'lit-element/lit-element.js';
 import { bodyStandardStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import OutcomeFormatter from './outcome-formatter.js';
-import LocalizedLitElement from './localized-element.js';
+import { LocalizeMixin } from './localized-element.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import '@brightspace-ui/core/components/button/button.js';
 
-class OrphanedOutcomesWarning extends LocalizedLitElement {
+class OrphanedOutcomesWarning extends  LocalizeMixin(LitElement) {
 	
 	static get properties() {
 		return {

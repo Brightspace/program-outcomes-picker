@@ -1,17 +1,17 @@
-import { css, html } from 'lit-element/lit-element.js';
+import { LitElement, css, html } from 'lit-element/lit-element.js';
 import { heading2Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { createNode, TreeBehaviour } from './internal/selection-state-node.js';
 import { CheckboxState } from './internal/enums.js';
 import Lores from './internal/lores.js';
 import Valence from './internal/valence.js';
-import LocalizedLitElement from './internal/localized-element.js';
+import { LocalizeMixin } from './internal/localized-element.js';
 import './internal/delete-outcomes-picker-tree.js';
 import './internal/orphaned-outcomes-warning.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import 'd2l-alert/d2l-alert.js';
 
-class DeleteOutcomesPicker extends LocalizedLitElement {
+class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 	
 	static get properties() {
 		return {
