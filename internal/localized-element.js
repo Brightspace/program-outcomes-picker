@@ -1,61 +1,79 @@
-import { LitElement } from 'lit-element/lit-element.js';
-import { LocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin.js';
+import { LocalizeMixin as CoreLocalizeMixin } from '@brightspace-ui/core/mixins/localize-mixin';
 
-import ar from '../build/lang/ar.js';
-import da from '../build/lang/da.js';
-import de from '../build/lang/de.js';
-import en from '../build/lang/en.js';
-import es from '../build/lang/es.js';
-import fr from '../build/lang/fr.js';
-import ja from '../build/lang/ja.js';
-import ko from '../build/lang/ko.js';
-import nb from '../build/lang/nb.js';
-import nl from '../build/lang/nl.js';
-import pt from '../build/lang/pt.js';
-import sv from '../build/lang/sv.js';
-import tr from '../build/lang/tr.js';
-import zh from '../build/lang/zh.js';
-import zhTW from '../build/lang/zh-tw.js';
+export const LocalizeMixin = (superclass) => class extends CoreLocalizeMixin(superclass) {
 
-const FALLBACK_LANGUAGE = 'en';
-const translations = {
-	ar: ar,
-	da: da,
-	de: de,
-	en: en,
-	es: es,
-	fr: fr,
-	ja: ja,
-	ko: ko,
-	nb: nb,
-	nl: nl,
-	pt: pt,
-	sv: sv,
-	tr: tr,
-	zh: zh,
-	['zh-cn']: zh,
-	['zh-tw']: zhTW
-};
+	static async getLocalizeResources(langs) {
+		let translations;
 
-class LocalizedLitElement extends LocalizeMixin( LitElement ) {
-	
-	static async getLocalizeResources( langs ) {
-		let resolvedLanguage = FALLBACK_LANGUAGE;
-		const languageDocument = Object.assign( {}, translations[FALLBACK_LANGUAGE] );
-		
-		langs.reverse().forEach( lang => {
-			if( translations[lang] ) {
-				resolvedLanguage = lang;
-				Object.assign( languageDocument, translations[lang] );
+		for await (const lang of langs) {
+			switch (lang) {
+				case 'ar':
+					translations = await import('../lang/ar.js');
+					break;
+				case 'cy':
+					translations = await import('../lang/cy.js');
+					break;
+				case 'da':
+					translations = await import('../lang/da.js');
+					break;
+				case 'de':
+					translations = await import('../lang/de.js');
+					break;
+				case 'en':
+					translations = await import('../lang/en.js');
+					break;
+				case 'es-es':
+					translations = await import('../lang/es-es.js');
+					break;
+				case 'es':
+					translations = await import('../lang/es.js');
+					break;
+				case 'fr-fr':
+					translations = await import('../lang/fr-fr.js');
+					break;
+				case 'fr':
+					translations = await import('../lang/fr.js');
+					break;
+				case 'ja':
+					translations = await import('../lang/ja.js');
+					break;
+				case 'ko':
+					translations = await import('../lang/ko.js');
+					break;
+				case 'nl':
+					translations = await import('../lang/nl.js');
+					break;
+				case 'pt':
+					translations = await import('../lang/pt.js');
+					break;
+				case 'sv':
+					translations = await import('../lang/sv.js');
+					break;
+				case 'tr':
+					translations = await import('../lang/tr.js');
+					break;
+				case 'zh-tw':
+					translations = await import('../lang/zh-tw.js');
+					break;
+				case 'zh':
+					translations = await import('../lang/zh.js');
+					break;
 			}
-		});
-		
+
+			if (translations && translations.default) {
+				return {
+					language: lang,
+					resources: translations.default
+				};
+			}
+		}
+
+		translations = await import('../lang/en.js');
+
 		return {
-			language: resolvedLanguage,
-			resources: languageDocument
+			language: 'en',
+			resources: translations.default
 		};
 	}
-	
-}
 
-export default LocalizedLitElement;
+};

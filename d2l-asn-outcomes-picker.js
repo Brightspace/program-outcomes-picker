@@ -1,10 +1,10 @@
-import { css, html } from 'lit-element/lit-element.js';
+import { LitElement, css, html } from 'lit-element/lit-element.js';
 import SelectStyle from './internal/select-style.js';
 import { bodyStandardStyles, heading2Styles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import Lores from './internal/lores.js';
 import ASNActions from './internal/asn-actions.js';
 import ASN from './internal/asn.js';
-import LocalizedLitElement from './internal/localized-element.js';
+import { LocalizeMixin } from './internal/localized-element.js';
 import './internal/asn-outcomes-picker-tree.js';
 import './internal/orphaned-outcomes-warning.js';
 import '@brightspace-ui/core/components/button/button.js';
@@ -21,7 +21,7 @@ dataState:
 		map: Map<sourceId,SelectionStateNode>
 */
 
-class AsnOutcomesPicker extends LocalizedLitElement {
+class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 	
 	static get properties() {
 		return {

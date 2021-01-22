@@ -3,8 +3,7 @@
   "version": "3.2.9",
   "description": "A Lit Element webcomponent for importing learning outcomes from programs",
   "scripts": {
-    "lang:build": "lang-build -eds \"\t\" -c langtools/config.json",
-    "lang:copy": "lang-copy -svc langtools/config.json",
+    "lint": "npm run lint:eslint",
     "lint:eslint": "eslint . --ext .js,.html",
     "start": "es-dev-server --app-index demo/index.html --node-resolve --dedupe --watch --open"
   },
@@ -18,7 +17,6 @@
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "babel-eslint": "^10.0.3",
-    "d2l-polymer-langtools": "^1.4.0",
     "es-dev-server": "^2.1.0",
     "eslint": "^4.19.1",
     "eslint-config-brightspace": "^0.6.4",

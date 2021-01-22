@@ -1,9 +1,9 @@
-import { css, html } from 'lit-element/lit-element.js';
+import { LitElement, css, html } from 'lit-element/lit-element.js';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
 import { CheckboxState } from './enums.js';
 import { bodyCompactStyles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
 import { Browser, OS } from './browser-check.js';
-import LocalizedLitElement from './localized-element.js';
+import { LocalizeMixin } from './localized-element.js';
 import OutcomeFormatter from './outcome-formatter.js';
 import '@brightspace-ui/core/components/button/button-icon.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox.js';
@@ -20,7 +20,7 @@ const CheckboxStateInfo = {
 Abstract class extended by program-outcomes-picker-node and asn-outcomes-picker-node
 */
 
-class OutcomeTreeNode extends LocalizedLitElement {
+class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 	
 	static get properties() {
 		return {
