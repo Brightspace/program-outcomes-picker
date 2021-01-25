@@ -1,6 +1,6 @@
 {
   "name": "d2l-program-outcomes-picker",
-  "version": "3.2.9",
+  "version": "3.2.10",
   "description": "A Lit Element webcomponent for importing learning outcomes from programs",
   "scripts": {
     "lint": "npm run lint:eslint",
