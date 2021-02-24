@@ -26,7 +26,7 @@ export default {
 	SelectEducationLevel: "Vælg uddannelsesniveau",
 	SelectFilters: "Vælg fra filtreringsindstillingerne for at se, hvilke elementer der er tilgængelige",
 	SelectJurisdiction: "Vælg jurisdiktion",
-	SelectProgram: "Vælg et program at vise og importere {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {læringsmål} outcomes {læringsresultater} standards {standarder} other {standarder}}.",
+	SelectProgram: "Vælg et program til at vise og importere {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {læringsmål} outcomes {læringsresultater} standards {standarder} other {standarder}}.",
 	SelectSubject: "Vælg emne",
 	Subject: "Emne",
 	Title: "Importér program {outcome, select, competencies {kompetencer} expectations {forventninger} objectives {mål} outcomes {resultater} standards {standarder} other {standarder}}",

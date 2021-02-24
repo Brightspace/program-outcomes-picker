@@ -6,7 +6,7 @@ export default {
 	Cancel: "Cancelar",
 	CheckedFalse: "no marcado",
 	CheckedMixed: "marcado a la mitad",
-	CheckedTrue: "seleccionada",
+	CheckedTrue: "seleccionado",
 	Close: "Cerrar",
 	CloseDialog: "Cerrar este cuadro de diálogo",
 	Collapse: "Contraer",

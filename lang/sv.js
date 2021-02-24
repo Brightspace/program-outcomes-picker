@@ -31,10 +31,10 @@ export default {
 	Subject: "Ämne",
 	Title: "Importera program {outcome, select, competencies {Kompetenser} expectations {Förväntningar} objectives {Mål} outcomes {Resultat} standards {Standarder} other {Standarder}}",
 	TitleASN: "Importera från Achievement Standards Network",
-	TitleDelete: "Välj de {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {utbildningsmål} outcomes {utbildningsresultat} standards {standarder} other {standarder}} du vill ta bort",
-	TitleUnlink: "Välj {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {inlärningsmål} outcomes {inlärningsmål} standards {standard} other {standard}} som ska sluta länkas från källa",
+	TitleDelete: "Välj de {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {inlärningsmål} outcomes {utbildningsresultat} standards {standarder} other {standarder}} du vill ta bort",
+	TitleUnlink: "Välj {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {inlärningsmål} outcomes {utbildningsresultat} standards {standarder} other {standarder}} som ska sluta länkas från källa",
 	Unlink: "Ta bort länk",
 	WarningDescription1: "Du håller på att ta bort {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {inlärningsmål} outcomes {utbildningsresultat} standards {standarder} other {standarder}} för vilka följande ändrade {outcome, select, competencies {kompetenser} expectations {förväntningar} objectives {inlärningsmål} outcomes {utbildningsresultat} standards {standarder} other {standarder}} har bifogats:",
-	WarningDescription2: "Vad vill du göra med de ändrade {outcome, select, competencies {kompetenserna} expectations {förväntningarna} objectives {inlärningsmålen} outcomes {utbildningsresultaten} standarderna {standards} other {standarderna}}?",
+	WarningDescription2: "Vad vill du göra med de ändrade {outcome, select, competencies {kompetenserna} expectations {förväntningarna} objectives {inlärningsmålen} outcomes {utbildningsresultaten} standards {standarderna} other {standarderna}}?",
 	WarningHeader: "Vill du flytta ändrade {outcome, select, competencies {Kompetenser} expectations {Förväntningar} objectives {Mål} outcomes {Resultat} standards {Standarder} other {Standarder}}?"
 };
