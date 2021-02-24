@@ -12,7 +12,7 @@ export default {
 	Collapse: "Daralt",
 	ConnectionError: "Üzgünüz! Bağlantı kurulurken bir sorunla karşılaşıldı. Sayfayı yenileyin veya daha sonra tekrar deneyin.",
 	Delete: "Sil:",
-	DeleteOrphanedOutcomes: "Sil {outcome, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}}",
+	DeleteOrphanedOutcomes: "Sil {outcomes, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}}",
 	Disabled: "devre dışı",
 	EducationLevel: "Eğitim Seviyesi",
 	Expand: "Genişlet",
@@ -22,7 +22,7 @@ export default {
 	Jurisdiction: "Yetki Alanı",
 	MoveOrphanedOutcomes: "Köke Taşı",
 	NumSelected: "{num} seçildi",
-	ProgramOutcomes: "Program {outcome, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}}",
+	ProgramOutcomes: "Program {outcomes, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}}",
 	SelectEducationLevel: "Eğitim Seviyesini Seç",
 	SelectFilters: "Mevcut öğeleri görmek için lütfen filtreleme seçeneklerinden birini belirleyin",
 	SelectJurisdiction: "Yetki Alanını Seç",
@@ -36,5 +36,5 @@ export default {
 	Unlink: "Bağlantıyı Kaldır",
 	WarningDescription1: "{outcome, select, competencies {yeterlikler} expectations {beklentiler} objectives {öğrenme hedefleri} outcomes {öğrenme kazanımları} standards {standartlar} other {standartlar}} öğelerini, ekteki yazılan {outcome, select, competencies {yeterlikler} expectations {beklentiler} objectives {öğrenme hedefleri} outcomes {öğrenme kazanımları} standards {standartlar} other {standartlar}} öğelerine kaldırmak üzeresiniz:",
 	WarningDescription2: "Yazılan {outcome, select, competencies {yeterlikler} expectations {beklentiler} objectives {öğrenme hedefleri} outcomes {öğrenme kazanımları} standards {standartlar} other {standartlar}} ile ne yapmak istersiniz?",
-	WarningHeader: "Yazılı {outcome, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}} taşınsın mı?"
+	WarningHeader: "Yazılı {outcomes, select, competencies {Yeterlikler} expectations {Beklentiler} objectives {Hedefler} outcomes {Kazanımlar} standards {Standartlar} other {Standartlar}} taşınsın mı?"
 };

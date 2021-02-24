@@ -32,7 +32,7 @@ export default {
 	Title: "Mewnforio Rhaglen {outcome, select, competencies {Competencies} expectations {Expectations} objectives {Objectives} outcomes {Outcomes} standards {Standards} other {Standards}}",
 	TitleASN: "Mewnforio o Rwydwaith Safonau Cyrhaeddiad",
 	TitleDelete: "Dewiswch {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} i ddileu",
-	TitleUnlink: "Dewiswch {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} i ddadgysylltu o’r gwreiddiol",
+	TitleUnlink: "Dewiswch {outcome, select, competencies {competencies} expectations {expectations} objectives {objectives} outcomes {outcomes} standards {standards} other {standards}} i ddatgysylltu o’r gwreiddiol",
 	Unlink: "Dadgysylltu",
 	WarningDescription1: "Rydych chi ar fin dileu {outcome, select, competencies {competencies} expectations {expectations} objectives {learning objectives} outcomes {learning outcomes} standards {standards} other {standards}} y mae’r {outcome, select, competencies {competencies} expectations {expectations} objectives {learning objectives} outcomes {learning outcomes} standards {standards} other {standards}} canlynol a ysgrifennwyd wedi’u hatodi iddynt:",
 	WarningDescription2: "Beth hoffech chi ei wneud gyda’r {outcome, select, competencies {competencies} expectations {expectations} objectives {learning objectives} outcomes {learning outcomes} standards {standards} other {standards}} a ysgrifennwyd?",
