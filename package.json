@@ -3,8 +3,11 @@
   "version": "3.2.11",
   "description": "A Lit Element webcomponent for importing learning outcomes from programs",
   "scripts": {
+    "license-check": "d2l-license-checker",
     "lint": "npm run lint:eslint",
     "lint:eslint": "eslint . --ext .js,.html",
+    "format": "npm run format:eslint",
+    "format:eslint": "npm run lint:eslint -- --fix",
     "start": "es-dev-server --app-index demo/index.html --node-resolve --dedupe --watch --open"
   },
   "author": "D2L Corporation",
@@ -17,6 +20,7 @@
   "devDependencies": {
     "@webcomponents/webcomponentsjs": "^2.2.10",
     "babel-eslint": "^10.0.3",
+    "d2l-license-checker": "^3.2.0",
     "es-dev-server": "^2.1.0",
     "eslint": "^4.19.1",
     "eslint-config-brightspace": "^0.6.4",
