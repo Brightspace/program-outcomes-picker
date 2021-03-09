@@ -30,34 +30,34 @@ const operatingSystemTable = {
 	linux: /Linux/
 };
 
-const isBrowser = function( browser ) {
+const isBrowser = function(browser) {
 	const browserChecker = browserTable[browser];
 	const uaString = window.navigator.userAgent;
-	
-	return browserChecker.require.test( uaString ) && (
+
+	return browserChecker.require.test(uaString) && (
 		!browserChecker.exclude ||
-		!browserChecker.exclude.test( uaString )
+		!browserChecker.exclude.test(uaString)
 	);
 };
 
-const isOS = function( os ) {
-	return operatingSystemTable[os].test( window.navigator.userAgent );
+const isOS = function(os) {
+	return operatingSystemTable[os].test(window.navigator.userAgent);
 };
 
 export const Browser = {
-	isFirefox: isBrowser.bind( null, 'firefox' ),
-	isChrome: isBrowser.bind( null, 'chrome' ),
-	isEdge: isBrowser.bind( null, 'edge' ),
-	isIE: isBrowser.bind( null, 'internetExplorer' ),
-	isSafari: isBrowser.bind( null, 'safari' ),
-	isOpera: () => isBrowser( 'operaNew' ) || isBrowser( 'operaOld' ),
-	isMicrosoftBrowser: () => isBrowser( 'edge' ) || isBrowser( 'internetExplorer' ),
-	isOldOpera: isBrowser.bind( null, 'operaOld' ),
-	isNewOpera: isBrowser.bind( null, 'operaNew' )
+	isFirefox: isBrowser.bind(null, 'firefox'),
+	isChrome: isBrowser.bind(null, 'chrome'),
+	isEdge: isBrowser.bind(null, 'edge'),
+	isIE: isBrowser.bind(null, 'internetExplorer'),
+	isSafari: isBrowser.bind(null, 'safari'),
+	isOpera: () => isBrowser('operaNew') || isBrowser('operaOld'),
+	isMicrosoftBrowser: () => isBrowser('edge') || isBrowser('internetExplorer'),
+	isOldOpera: isBrowser.bind(null, 'operaOld'),
+	isNewOpera: isBrowser.bind(null, 'operaNew')
 };
 
 export const OS = {
-	isWindows: isOS.bind( null, 'windows' ),
-	isMac: isOS.bind( null, 'mac' ),
-	isLinux: isOS.bind( null, 'linux' )
+	isWindows: isOS.bind(null, 'windows'),
+	isMac: isOS.bind(null, 'mac'),
+	isLinux: isOS.bind(null, 'linux')
 };

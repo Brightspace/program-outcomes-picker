@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit-element/lit-element.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { heading2Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import { createNode, TreeBehaviour } from './internal/selection-state-node.js';
 import { CheckboxState } from './internal/enums.js';
@@ -12,7 +12,7 @@ import '@brightspace-ui/core/components/icons/icon.js';
 import 'd2l-alert/d2l-alert.js';
 
 class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
-	
+
 	static get properties() {
 		return {
 			registryId: { type: String, attribute: 'registry-id' },
@@ -20,14 +20,14 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 			outcomesTerm: { type: String, attribute: 'outcome-term' },
 			noHeader: { type: Boolean, attribute: 'no-header' },
 			valenceHost: { type: String, attribute: 'valence-host' },
-			
+
 			_dataState: { type: Object },
 			_loading: { type: Boolean },
 			_errored: { type: Boolean },
 			_numSelected: { type: Number, value: 0 }
 		};
 	}
-	
+
 	static get styles() {
 		const componentStyle = css`
 			.main {
@@ -93,13 +93,13 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 				user-select: none;
 			}
 		`;
-		
+
 		return [
 			heading2Styles,
 			componentStyle
 		];
 	}
-	
+
 	constructor() {
 		super();
 		this.registryId = null;
@@ -108,53 +108,53 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 		this.valenceHost = window.location.origin;
 		this._loading = true;
 		this._errored = false;
-		
+
 		this._dataState = {
 			outcomesMap: new Map(),
 			stateNodes: []
 		};
-		
-		this.addEventListener( 'd2l-outcome-selection-state-changed', this._countSelected.bind( this ) );
+
+		this.addEventListener('d2l-outcome-selection-state-changed', this._countSelected.bind(this));
 	}
-	
+
 	connectedCallback() {
-		Lores.setEndpoint( this.loresEndpoint );
-		Valence.setHost( this.valenceHost );
+		Lores.setEndpoint(this.loresEndpoint);
+		Valence.setHost(this.valenceHost);
 		super.connectedCallback();
 	}
-	
-	localize( term, params ) {
+
+	localize(term, params) {
 		return super.localize(
 			term,
-			Object.assign( { outcome: this.outcomesTerm }, params || {} )
+			Object.assign({ outcome: this.outcomesTerm }, params || {})
 		);
 	}
-	
+
 	_onAlertClosed() {
 		this._errored = false;
 	}
-	
-	_countSelected( event ) {
-		const countRecursive = function( nodes ) {
-			return nodes.reduce( (count, node) => {
-				switch( node.checkboxState ) {
+
+	_countSelected(event) {
+		const countRecursive = function(nodes) {
+			return nodes.reduce((count, node) => {
+				switch (node.checkboxState) {
 					case CheckboxState.NOT_CHECKED:
 						return count;
 					case CheckboxState.PARTIAL:
-						return count + countRecursive( node.children );
+						return count + countRecursive(node.children);
 					case CheckboxState.CHECKED:
-						return count + 1 + countRecursive( node.children );
+						return count + 1 + countRecursive(node.children);
 					default:
-						throw new Error( 'Invalid CheckboxState enum value' );
+						throw new Error('Invalid CheckboxState enum value');
 				}
-			}, 0 );
+			}, 0);
 		};
-		this._numSelected = countRecursive( this._dataState.stateNodes );
+		this._numSelected = countRecursive(this._dataState.stateNodes);
 		event.stopPropagation();
 	}
-	
+
 	_renderAlert() {
-		if( !this._errored ) {
+		if (!this._errored) {
 			return '';
 		}
 		return html`
@@ -168,9 +168,9 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</d2l-alert>
 		`;
 	}
-	
+
 	_renderHeader() {
-		if( this.noHeader ) {
+		if (this.noHeader) {
 			return '';
 		}
 		return html`
@@ -185,13 +185,13 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
-	_suppressEventBehaviour( event ) {
+
+	_suppressEventBehaviour(event) {
 		event.preventDefault();
 	}
-	
+
 	render() {
-		if( this._loading ) {
+		if (this._loading) {
 			return html`
 				${this._renderAlert()}
 				<div style="width: 100%; height: 100%; display: flex;" aria-busy="true">
@@ -205,7 +205,7 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 				</div>
 			`;
 		}
-		
+
 		const countString = this._numSelected ? this.localize('NumSelected', { 'num': this._numSelected }) : '';
 		return html`
 			<div class="main">
@@ -229,13 +229,13 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
-	updated( changedProperties ) {
-		super.updated( changedProperties );
-		if(
-			changedProperties.has( 'loresEndpoint' ) ||
-			changedProperties.has( 'registryId' ) ||
-			changedProperties.has( 'valenceHost' )
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (
+			changedProperties.has('loresEndpoint') ||
+			changedProperties.has('registryId') ||
+			changedProperties.has('valenceHost')
 		) {
 			this._loading = true;
 			this._errored = false;
@@ -243,94 +243,94 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 				outcomesMap: new Map(),
 				stateNodes: []
 			};
-			
-			Lores.setEndpoint( this.loresEndpoint );
-			Valence.setHost( this.valenceHost );
+
+			Lores.setEndpoint(this.loresEndpoint);
+			Valence.setHost(this.valenceHost);
 			Promise.all([
-				Lores.fetchRegistryAsync( this.registryId ),
-				Lores.getOwnedLockedOutcomesAsync( this.registryId ),
-				Valence.getAlignedOutcomesStatus( this.registryId )
-			]).then( responses => {
+				Lores.fetchRegistryAsync(this.registryId),
+				Lores.getOwnedLockedOutcomesAsync(this.registryId),
+				Valence.getAlignedOutcomesStatus(this.registryId)
+			]).then(responses => {
 				const lockedOutcomes = new Set();
 				const assessedOutcomes = new Set();
-				responses[1].forEach( outcomeId => lockedOutcomes.add( outcomeId ) );
-				responses[2].forEach( info => info.HasAssessments && assessedOutcomes.add( info.ObjectiveId ) );
-				this._dataState.stateNodes = this._buildState( responses[0].objectives, lockedOutcomes, assessedOutcomes, null );
+				responses[1].forEach(outcomeId => lockedOutcomes.add(outcomeId));
+				responses[2].forEach(info => info.HasAssessments && assessedOutcomes.add(info.ObjectiveId));
+				this._dataState.stateNodes = this._buildState(responses[0].objectives, lockedOutcomes, assessedOutcomes, null);
 				this._loading = false;
-			}).catch( err => {
-				console.error( err );  //eslint-disable-line no-console
+			}).catch(err => {
+				console.error(err);  //eslint-disable-line no-console
 				this._errored = true;
 				this._loading = false;
 			});
 		}
 
 	}
-	
-	_buildState( outcomes, lockedOutcomes, assessedOutcomes, parent ) {
-		return outcomes.map( outcome => {
-			this._dataState.outcomesMap.set( outcome.id, outcome );
-			const stateNode = createNode( TreeBehaviour.CascadesDown, {
+
+	_buildState(outcomes, lockedOutcomes, assessedOutcomes, parent) {
+		return outcomes.map(outcome => {
+			this._dataState.outcomesMap.set(outcome.id, outcome);
+			const stateNode = createNode(TreeBehaviour.CascadesDown, {
 				outcomeId: outcome.id,
 				parent: parent,
 				children: null, // gets set after children are processed
 				checkboxState: CheckboxState.NOT_CHECKED,
-				locked: lockedOutcomes.has( outcome.id ),
-				assessed: assessedOutcomes.has( outcome.id )
+				locked: lockedOutcomes.has(outcome.id),
+				assessed: assessedOutcomes.has(outcome.id)
 			});
-			stateNode.children = this._buildState( outcome.children, lockedOutcomes, assessedOutcomes, stateNode );
-			stateNode.disabled = stateNode.locked || stateNode.assessed || stateNode.children.some( child => child.disabled );
+			stateNode.children = this._buildState(outcome.children, lockedOutcomes, assessedOutcomes, stateNode);
+			stateNode.disabled = stateNode.locked || stateNode.assessed || stateNode.children.some(child => child.disabled);
 			return stateNode;
 		});
 	}
-	
-	_buildUpdate( stateNodes, /*out*/ updateJson ) {
-		stateNodes.forEach( node => {
-			if( node.checkboxState === CheckboxState.CHECKED ) {
+
+	_buildUpdate(stateNodes, /*out*/ updateJson) {
+		stateNodes.forEach(node => {
+			if (node.checkboxState === CheckboxState.CHECKED) {
 				return;
 			}
-			
+
 			const updateNode = {
 				id: node.outcomeId,
 				children: []
 			};
-			this._buildUpdate( node.children, updateNode.children );
-			updateJson.push( updateNode );
+			this._buildUpdate(node.children, updateNode.children);
+			updateJson.push(updateNode);
 		});
 	}
-	
-	_deleteAsync( registryId, updateJson ) {
+
+	_deleteAsync(registryId, updateJson) {
 		this._loading = true;
-		return Lores.updateRegistryAsync( registryId, updateJson ).then( () => {
+		return Lores.updateRegistryAsync(registryId, updateJson).then(() => {
 			this._loading = false;
-		}).catch( err => {
+		}).catch(err => {
 			this._loading = false;
 			this._errored = true;
 			throw err;
 		});
 	}
-	
+
 	_confirmDelete() {
 		const registryId = this.registryId;
 		const numDeleted = this._numSelected;
 		const updateJson = [];
-		
-		this._buildUpdate( this._dataState.stateNodes, updateJson );
-		
+
+		this._buildUpdate(this._dataState.stateNodes, updateJson);
+
 		this.dispatchEvent(
 			new CustomEvent(
 				'd2l-delete-outcomes-picker-import',
 				{
 					bubbles: false,
 					detail: {
-						deleteAction: this._deleteAsync.bind( this, registryId, updateJson ),
+						deleteAction: this._deleteAsync.bind(this, registryId, updateJson),
 						newRegistry: updateJson,
 						numOutcomesToDelete: numDeleted
 					}
-				} 
+				}
 			)
 		);
 	}
-	
+
 	_close() {
 		this.dispatchEvent(
 			new CustomEvent(
@@ -339,7 +339,7 @@ class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 			)
 		);
 	}
-	
-} 
 
-customElements.define( 'd2l-delete-outcomes-picker', DeleteOutcomesPicker );
+}
+
+customElements.define('d2l-delete-outcomes-picker', DeleteOutcomesPicker);

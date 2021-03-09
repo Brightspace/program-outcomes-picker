@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit-element/lit-element.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
 import { bodyStandardStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
 import OutcomeFormatter from './outcome-formatter.js';
 import { LocalizeMixin } from './localized-element.js';
@@ -6,7 +6,7 @@ import '@brightspace-ui/core/components/icons/icon.js';
 import '@brightspace-ui/core/components/button/button.js';
 
 class OrphanedOutcomesWarning extends  LocalizeMixin(LitElement) {
-	
+
 	static get properties() {
 		return {
 			open: { type: Boolean },
@@ -16,7 +16,7 @@ class OrphanedOutcomesWarning extends  LocalizeMixin(LitElement) {
 			canMoveToRoot: { type: Boolean }
 		};
 	}
-	
+
 	static get styles() {
 		const componentStyle = css`
 			.fade, .modal {
@@ -111,14 +111,14 @@ class OrphanedOutcomesWarning extends  LocalizeMixin(LitElement) {
 				max-width: 550px;
 			}
 		`;
-		
+
 		return [
 			bodyStandardStyles,
 			heading3Styles,
 			componentStyle
 		];
 	}
-	
+
 	constructor() {
 		super();
 		this.open = false;
@@ -127,63 +127,63 @@ class OrphanedOutcomesWarning extends  LocalizeMixin(LitElement) {
 		this.outcomesTerm = 'standards';
 		this.canMoveToRoot = false;
 	}
-	
-	localize( term ) {
-		return super.localize( term, { outcome: this.outcomesTerm } );
+
+	localize(term) {
+		return super.localize(term, { outcome: this.outcomesTerm });
 	}
-	
-	_focusElement( id ) {
-		const target = this.shadowRoot.getElementById( id );
-		if( target ) {
+
+	_focusElement(id) {
+		const target = this.shadowRoot.getElementById(id);
+		if (target) {
 			target.focus();
 		}
 	}
-	
-	_fireEvent( actionName ) {
+
+	_fireEvent(actionName) {
 		this.dispatchEvent(
 			new CustomEvent(
 				actionName,
-				{ bubbles: false } 
+				{ bubbles: false }
 			)
 		);
 	}
-	
-	_getRenderedOutcomes( outcomeNodes, renderList ) {
-		outcomeNodes.forEach( node => {
+
+	_getRenderedOutcomes(outcomeNodes, renderList) {
+		outcomeNodes.forEach(node => {
 			const outcome = this.outcomeLookup[node.id].outcome;
-			renderList.push( html`<li>${OutcomeFormatter.render(outcome)}</li>` );
-			this._getRenderedOutcomes( node.children, renderList );
+			renderList.push(html`<li>${OutcomeFormatter.render(outcome)}</li>`);
+			this._getRenderedOutcomes(node.children, renderList);
 		});
 	}
-	
+
 	_focusCancelButton() {
-		this._focusElement( 'cancel-button' );
+		this._focusElement('cancel-button');
 	}
-	
+
 	_focusCloseButton() {
-		this._focusElement( 'close-button' );
+		this._focusElement('close-button');
 	}
-	
+
 	_cancel() {
-		this._fireEvent( 'action-cancel' );
+		this._fireEvent('action-cancel');
 	}
-	
+
 	_delete() {
-		this._fireEvent( 'action-delete' );
+		this._fireEvent('action-delete');
 	}
-	
+
 	_move() {
-		this._fireEvent( 'action-move' );
+		this._fireEvent('action-move');
 	}
-	
+
 	render() {
-		if( !this.open ) {
+		if (!this.open) {
 			return html`<div hidden></div>`;
 		}
-		
+
 		const renderedOutcomes = [];
-		this._getRenderedOutcomes( this._affectedOutcomes, renderedOutcomes );
-		
+		this._getRenderedOutcomes(this._affectedOutcomes, renderedOutcomes);
+
 		return html`
 			<div class="fade"></div>
 			<div class="modal">
@@ -226,14 +226,14 @@ class OrphanedOutcomesWarning extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
-	updated( changedProperties ) {
-		super.updated( changedProperties );
-		if( this.open && changedProperties.has( 'open' ) && !changedProperties.get( 'open' ) ) {
-			this.canMoveToRoot ? this._focusElement( 'move-button' ) : this._focusElement( 'delete-button' );
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (this.open && changedProperties.has('open') && !changedProperties.get('open')) {
+			this.canMoveToRoot ? this._focusElement('move-button') : this._focusElement('delete-button');
 		}
 	}
-	
-} 
 
-customElements.define( 'program-outcomes-picker-warning-modal', OrphanedOutcomesWarning );
+}
+
+customElements.define('program-outcomes-picker-warning-modal', OrphanedOutcomesWarning);

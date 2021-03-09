@@ -5,26 +5,26 @@ const scope = 'core:*:*';
 
 export default {
 
-	setHost: function( valenceHost ) {
+	setHost: function(valenceHost) {
 		host = valenceHost;
-		if( !valenceHost.endsWith( '/' ) ) {
+		if (!valenceHost.endsWith('/')) {
 			host += '/';
 		}
 	},
 
-	getAlignedOutcomesStatus: function( registryId ) {
-		return sendRequest( 'GET', `${host}d2l/api/le/lo/registry/${registryId}/alignedOutcomesStatus`, {
+	getAlignedOutcomesStatus: function(registryId) {
+		return sendRequest('GET', `${host}d2l/api/le/lo/registry/${registryId}/alignedOutcomesStatus`, {
 			authScope: scope,
 			expectJson: true
-		} );
+		});
 	},
 
-	getRegistrySources: function( registryIds ) {
-		return sendRequest( 'POST', `${host}d2l/api/le/unstable/lo/GetRegistrySources`, {
+	getRegistrySources: function(registryIds) {
+		return sendRequest('POST', `${host}d2l/api/le/unstable/lo/GetRegistrySources`, {
 			authScope: scope,
 			expectJson: true,
 			requestBodyJson: registryIds
-		} );
+		});
 	}
-    
+
 };

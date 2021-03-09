@@ -8,78 +8,78 @@ const Scopes = {
 };
 
 export default {
-	
-	setEndpoint: function( loresEndpoint ) {
+
+	setEndpoint: function(loresEndpoint) {
 		endpoint = loresEndpoint;
-		if( !loresEndpoint.endsWith( '/' ) ) {
+		if (!loresEndpoint.endsWith('/')) {
 			endpoint += '/';
 		}
 	},
-	
-	fetchRegistryAsync: function( registryId ) {
-		if( !endpoint ) {
-			return Promise.reject( 'Lores endpoint not set.' );
+
+	fetchRegistryAsync: function(registryId) {
+		if (!endpoint) {
+			return Promise.reject('Lores endpoint not set.');
 		}
-		
-		return sendRequest( 'GET', `${endpoint}api/lores/1.0/registries/${registryId}`, {
+
+		return sendRequest('GET', `${endpoint}api/lores/1.0/registries/${registryId}`, {
 			authScope: Scopes.READ,
 			expectJson: true
 		});
 	},
-	
-	updateRegistryAsync: function( registryId, registryContent ) {
-		if( !endpoint ) {
-			return Promise.reject( 'Lores endpoint not set.' );
+
+	updateRegistryAsync: function(registryId, registryContent) {
+		if (!endpoint) {
+			return Promise.reject('Lores endpoint not set.');
 		}
-		
-		return sendRequest( 'PUT', `${endpoint}api/lores/1.0/registries/${registryId}`, {
+
+		return sendRequest('PUT', `${endpoint}api/lores/1.0/registries/${registryId}`, {
 			authScope: Scopes.MANAGE,
 			requestBodyJson: {
 				objectives: registryContent,
-				last_updated: new Date( Date.now() ).toISOString()
+				last_updated: new Date(Date.now()).toISOString()
 			}
 		});
 	},
-	
-	createOutcomesAsync: function( orgUnitId, sourceData ) {
-		if( !sourceData.length ) {
-			return Promise.resolve( [] );
+
+	createOutcomesAsync: function(orgUnitId, sourceData) {
+		if (!sourceData.length) {
+			return Promise.resolve([]);
 		}
-		
-		if( !endpoint ) {
-			return Promise.reject( 'Lores endpoint not set.' );
+
+		if (!endpoint) {
+			return Promise.reject('Lores endpoint not set.');
 		}
-		
+
 		const owner = 'learning_outcomes';
-		const additionalAuthorization = encodeURIComponent( JSON.stringify({
+		const additionalAuthorization = encodeURIComponent(JSON.stringify({
 			_type: 'anon',
 			orgUnitId: orgUnitId
 		}));
-		
-		return sendRequest( 'POST', `${endpoint}api/lores/1.0/objectives/bulk?owner=${owner}&additionalAuthorization=${additionalAuthorization}`, {
+
+		return sendRequest('POST', `${endpoint}api/lores/1.0/objectives/bulk?owner=${owner}&additionalAuthorization=${additionalAuthorization}`, {
 			authScope: Scopes.MANAGE,
 			requestBodyJson: sourceData
 		});
 	},
-	
-	getOwnedLockedOutcomesAsync: function( registryId ) {
-		return this.getLockedOutcomesAsync( registryId, 'owned' );
+
+	getOwnedLockedOutcomesAsync: function(registryId) {
+		return this.getLockedOutcomesAsync(registryId, 'owned');
 	},
 
-	getLockedOutcomesAsync: function( registryId, filter ) {
+	getLockedOutcomesAsync: function(registryId, filter) {
 		filter = filter || 'all';
 
-		if( !endpoint ) {
-			return Promise.reject( 'Lores endpoint not set.' );
+		if (!endpoint) {
+			return Promise.reject('Lores endpoint not set.');
 		}
-		
-		return sendRequest( 'GET', `${endpoint}api/lores/1.0/registries/${registryId}/locked_objectives?filter=${filter}`, {
+
+		return sendRequest('GET', `${endpoint}api/lores/1.0/registries/${registryId}/locked_objectives?filter=${filter}`, {
 			authScope: Scopes.READ,
 			expectJson: true
-		}).catch( exception => {
-			console.error( exception ); // eslint-disable-line no-console
+		}).catch(exception => {
+			console.error(exception); // eslint-disable-line no-console
 			return [];
 		});
 	}
-	
+
 };
