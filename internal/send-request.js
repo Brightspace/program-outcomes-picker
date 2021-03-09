@@ -13,7 +13,7 @@ const _sendRequestWithAuth = function(method, url, options, authToken) {
 	const xhr = new XMLHttpRequest();
 	xhr.open(method, url);
 	if (authToken) {
-		xhr.setRequestHeader('Authorization', `Bearer ${  authToken}`);
+		xhr.setRequestHeader('Authorization', `Bearer ${authToken}`);
 	}
 
 	return new Promise((resolve, reject) => {

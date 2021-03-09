@@ -36,15 +36,15 @@ const renderOutcome = function(outcome) {
 	const parts = [];
 	const notation = outcome.notation || outcome.alt_notation;
 	if (notation && notation.trim()) {
-		parts.push(html`<b>${`${notation.trim()  } `}</b>`);
+		parts.push(html`<b>${notation.trim()}</b>`);
 	}
 
 	if (outcome.label && outcome.label.trim()) {
-		parts.push(html`<b>${`${outcome.label.trim()  } `}`);
+		parts.push(html`<b>${outcome.label.trim()}</b>`);
 	}
 
 	if (outcome.list_id && outcome.list_id.trim()) {
-		parts.push(html`<b>${`${outcome.list_id.trim()  } `}`);
+		parts.push(html`<b>${outcome.list_id.trim()}</b>`);
 	}
 
 	const description = (outcome.description || '').trim();

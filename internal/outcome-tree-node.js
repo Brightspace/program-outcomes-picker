@@ -346,7 +346,7 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 		treeComponent._focusedNode = this;
 
 		// VoiceOver workaround
-		const li = this.querySelector(`#${  this.htmlId}`);
+		const li = this.querySelector(`#${this.htmlId}`);
 		if (li) {
 			if (Browser.isSafari()) {
 				treeRoot.blur();

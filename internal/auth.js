@@ -50,7 +50,7 @@ const getJwtAsync = function(xsrf, scope) {
 				reject(exception);
 			}
 		};
-		xhr.send(`scope=${  scope}`);
+		xhr.send(`scope=${scope}`);
 	});
 };
 

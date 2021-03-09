@@ -5,7 +5,7 @@ const callAsnAsync = function(action, queryParams) {
 	if (queryParams) {
 		const params = Object.keys(queryParams).map(p => `${p}=${encodeURIComponent(queryParams[p])}`);
 		if (params.length) {
-			url += `?${  params.join('&')}`;
+			url += `?${params.join('&')}`;
 		}
 	}
 

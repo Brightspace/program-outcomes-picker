@@ -47,10 +47,12 @@ class AsnOutcomeNode extends OutcomeTreeNode {
 	}
 
 	_generateHtmlId(sourceId) {
-		return `node_${  window.btoa(sourceId)
+		const htmlId = window.btoa(sourceId)
 			.replace(/\+/g, '-')
 			.replace(/\//g, '_')
-			.replace(/=/g, '')}`;
+			.replace(/=/g, '');
+
+		return `node_${htmlId}`;
 	}
 
 	getSelectionNode() {
