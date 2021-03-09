@@ -1,8 +1,8 @@
 import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
 import { Browser } from './browser-check.js';
-import OutcomeTreeNode from './outcome-tree-node.js';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
 import { LocalizeMixin } from './localized-element.js';
+import OutcomeTreeNode from './outcome-tree-node.js';
 
 class OutcomeTree extends  LocalizeMixin(LitElement) {
 

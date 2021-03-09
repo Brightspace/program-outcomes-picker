@@ -1,6 +1,6 @@
+import './delete-outcomes-picker-node.js';
 import { html } from 'lit-element/lit-element.js';
 import OutcomeTree from './outcome-tree.js';
-import './delete-outcomes-picker-node.js';
 
 class DeleteOutcomesTree extends OutcomeTree {
 

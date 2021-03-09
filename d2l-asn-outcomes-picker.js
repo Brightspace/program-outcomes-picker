@@ -1,15 +1,15 @@
-import { css, html, LitElement } from 'lit-element/lit-element.js';
-import SelectStyle from './internal/select-style.js';
-import { bodyStandardStyles, heading2Styles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import Lores from './internal/lores.js';
-import ASNActions from './internal/asn-actions.js';
-import ASN from './internal/asn.js';
-import { LocalizeMixin } from './internal/localized-element.js';
+import '@brightspace-ui/core/components/button/button.js';
+import '@brightspace-ui/core/components/icons/icon.js';
+import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import './internal/asn-outcomes-picker-tree.js';
 import './internal/orphaned-outcomes-warning.js';
-import '@brightspace-ui/core/components/button/button.js';
-import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
-import '@brightspace-ui/core/components/icons/icon.js';
+import { bodyStandardStyles, heading2Styles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import ASN from './internal/asn.js';
+import ASNActions from './internal/asn-actions.js';
+import { LocalizeMixin } from './internal/localized-element.js';
+import Lores from './internal/lores.js';
+import SelectStyle from './internal/select-style.js';
 
 /*
 dataState:

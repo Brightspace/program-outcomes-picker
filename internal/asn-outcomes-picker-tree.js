@@ -1,12 +1,12 @@
-import { html } from 'lit-element/lit-element.js';
-import { bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import { CheckboxState } from './enums.js';
-import ASN from './asn.js';
-import ASNActions from './asn-actions.js';
-import { createNode, TreeBehaviour } from './selection-state-node.js';
-import OutcomeTree from './outcome-tree.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import './asn-outcomes-picker-node.js';
+import { createNode, TreeBehaviour } from './selection-state-node.js';
+import ASN from './asn.js';
+import ASNActions from './asn-actions.js';
+import { bodyStandardStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { CheckboxState } from './enums.js';
+import { html } from 'lit-element/lit-element.js';
+import OutcomeTree from './outcome-tree.js';
 
 class AsnOutcomesTree extends OutcomeTree {
 

@@ -1,6 +1,6 @@
+import './program-outcomes-picker-node.js';
 import { html } from 'lit-element/lit-element.js';
 import OutcomeTree from './outcome-tree.js';
-import './program-outcomes-picker-node.js';
 
 class ProgramOutcomesTree extends OutcomeTree {
 

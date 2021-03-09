@@ -1,9 +1,9 @@
-import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { bodyStandardStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
-import OutcomeFormatter from './outcome-formatter.js';
-import { LocalizeMixin } from './localized-element.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import '@brightspace-ui/core/components/button/button.js';
+import { bodyStandardStyles, heading3Styles } from '@brightspace-ui/core/components/typography/styles.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { LocalizeMixin } from './localized-element.js';
+import OutcomeFormatter from './outcome-formatter.js';
 
 class OrphanedOutcomesWarning extends  LocalizeMixin(LitElement) {
 

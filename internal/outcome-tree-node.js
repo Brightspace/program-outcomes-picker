@@ -1,14 +1,14 @@
-import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { CheckboxState } from './enums.js';
-import { bodyCompactStyles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import { Browser, OS } from './browser-check.js';
-import { LocalizeMixin } from './localized-element.js';
-import OutcomeFormatter from './outcome-formatter.js';
 import '@brightspace-ui/core/components/button/button-icon.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/offscreen/offscreen.js';
 import 'd2l-alert/d2l-alert.js';
+import { bodyCompactStyles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { Browser, OS } from './browser-check.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { CheckboxState } from './enums.js';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { LocalizeMixin } from './localized-element.js';
+import OutcomeFormatter from './outcome-formatter.js';
 
 const CheckboxStateInfo = {
 	[ CheckboxState.NOT_CHECKED ]: { checked: false, indeterminate: false, ariaChecked: 'false', checkedTerm: 'CheckedFalse' },

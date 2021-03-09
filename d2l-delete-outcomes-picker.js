@@ -1,15 +1,15 @@
-import { css, html, LitElement } from 'lit-element/lit-element.js';
-import { heading2Styles } from '@brightspace-ui/core/components/typography/styles.js';
-import { createNode, TreeBehaviour } from './internal/selection-state-node.js';
-import { CheckboxState } from './internal/enums.js';
-import Lores from './internal/lores.js';
-import Valence from './internal/valence.js';
-import { LocalizeMixin } from './internal/localized-element.js';
-import './internal/delete-outcomes-picker-tree.js';
-import './internal/orphaned-outcomes-warning.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import 'd2l-alert/d2l-alert.js';
+import './internal/delete-outcomes-picker-tree.js';
+import './internal/orphaned-outcomes-warning.js';
+import { createNode, TreeBehaviour } from './internal/selection-state-node.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { CheckboxState } from './internal/enums.js';
+import { heading2Styles } from '@brightspace-ui/core/components/typography/styles.js';
+import { LocalizeMixin } from './internal/localized-element.js';
+import Lores from './internal/lores.js';
+import Valence from './internal/valence.js';
 
 class DeleteOutcomesPicker extends  LocalizeMixin(LitElement) {
 

@@ -1,6 +1,6 @@
+import './unlink-outcomes-picker-node.js';
 import { html } from 'lit-element/lit-element.js';
 import OutcomeTree from './outcome-tree.js';
-import './unlink-outcomes-picker-node.js';
 
 class UnlinkOutcomesTree extends OutcomeTree {
 

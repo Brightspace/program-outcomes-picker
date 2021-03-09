@@ -1,6 +1,6 @@
-import initializationHelper from './initialization.js';
-import { createNode, TreeBehaviour } from './selection-state-node.js';
 import { CheckboxState, SelectionState } from './enums.js';
+import { createNode, TreeBehaviour } from './selection-state-node.js';
+import initializationHelper from './initialization.js';
 
 const selectProgram = function(dataState, registryId) {
 	applyProgramState(dataState);
