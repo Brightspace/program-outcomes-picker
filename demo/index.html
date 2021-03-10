@@ -31,12 +31,12 @@
 			></d2l-program-outcomes-picker>
 		</div>
 		<script>
-			const picker = document.getElementById( 'picker' );
-			picker.addEventListener( 'd2l-program-outcomes-picker-import', event => {
-				window.alert( 'Done!\n\n' + JSON.stringify( event.detail.newRegistryContents, null, 2 ) );
+			const picker = document.getElementById('picker');
+			picker.addEventListener('d2l-program-outcomes-picker-import', event => {
+				window.alert(`Done!\n\n${JSON.stringify(event.detail.newRegistryContents, null, 2)}`);
 			});
-			picker.addEventListener( 'd2l-program-outcomes-picker-cancel', () => {
-				window.alert( 'Cancelled' );
+			picker.addEventListener('d2l-program-outcomes-picker-cancel', () => {
+				window.alert('Cancelled');
 			});
 		</script>
 	</body>

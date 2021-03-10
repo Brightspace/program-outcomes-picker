@@ -1,15 +1,15 @@
-import { LitElement, css, html } from 'lit-element/lit-element.js';
-import SelectStyle from './internal/select-style.js';
-import { bodyStandardStyles, heading2Styles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import Lores from './internal/lores.js';
-import ASNActions from './internal/asn-actions.js';
-import ASN from './internal/asn.js';
-import { LocalizeMixin } from './internal/localized-element.js';
+import '@brightspace-ui/core/components/button/button.js';
+import '@brightspace-ui/core/components/icons/icon.js';
+import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import './internal/asn-outcomes-picker-tree.js';
 import './internal/orphaned-outcomes-warning.js';
-import '@brightspace-ui/core/components/button/button.js';
-import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
-import '@brightspace-ui/core/components/icons/icon.js';
+import { bodyStandardStyles, heading2Styles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import ASN from './internal/asn.js';
+import ASNActions from './internal/asn-actions.js';
+import { LocalizeMixin } from './internal/localized-element.js';
+import Lores from './internal/lores.js';
+import SelectStyle from './internal/select-style.js';
 
 /*
 dataState:
@@ -22,7 +22,7 @@ dataState:
 */
 
 class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
-	
+
 	static get properties() {
 		return {
 			registryId: { type: String, attribute: 'registry-id' },
@@ -30,17 +30,17 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			outcomesTerm: { type: String, attribute: 'outcome-term' },
 			noHeader: { type: Boolean, attribute: 'no-header' },
 			orgUnitId: { type: Number, attribute: 'org-unit-id' },
-			
+
 			_availableJurisdictions: { type: Array },
 			_availableSubjects: { type: Array },
 			_availableFrameworks: { type: Array },
 			_availableEducationLevels: { type: Array },
-			
+
 			_jurisdiction: { type: String },
 			_subject: { type: String },
 			_documentId: { type: String },
 			_educationLevel: { type: String },
-			
+
 			_dataState: { type: Object },
 			_loading: { type: Boolean },
 			_loadingFilters: { type: Boolean },
@@ -48,7 +48,7 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			_errored: { type: Boolean }
 		};
 	}
-	
+
 	static get styles() {
 		const componentStyle = css`
 			.main {
@@ -153,7 +153,7 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 				color: var(--d2l-color-tungsten);
 			}
 		`;
-		
+
 		return [
 			bodyStandardStyles,
 			heading2Styles,
@@ -163,7 +163,7 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			componentStyle
 		];
 	}
-	
+
 	constructor() {
 		super();
 		this.registryId = null;
@@ -174,17 +174,17 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 		this._loadingFilters = false;
 		this._changesToApply = null;
 		this._errored = false;
-		
+
 		this._availableJurisdictions = [];
 		this._availableSubjects = [];
 		this._availableFrameworks = [];
 		this._availableEducationLevels = [];
-		
+
 		this._jurisdiction = null;
 		this._subject = null;
 		this._documentId = null;
 		this._educationLevel = null;
-		
+
 		this._dataState = {
 			selectedOutcomes: new Map(),
 			lockedOutcomes: new Set(),
@@ -192,29 +192,29 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			currentTree: null
 		};
 	}
-	
+
 	connectedCallback() {
-		Lores.setEndpoint( this.loresEndpoint );
+		Lores.setEndpoint(this.loresEndpoint);
 		super.connectedCallback();
-		if( !this._availableJurisdictions.length ) {
+		if (!this._availableJurisdictions.length) {
 			this._loading = true;
-			ASN.fetchJurisdictionsAsync().then( jurisdictions => {
+			ASN.fetchJurisdictionsAsync().then(jurisdictions => {
 				this._availableJurisdictions = jurisdictions;
 				this._loading = false;
-			}).catch( () => this._errored = true );
+			}).catch(() => this._errored = true);
 		}
 	}
-	
-	localize( term ) {
-		return super.localize( term, { outcome: this.outcomesTerm } );
+
+	localize(term) {
+		return super.localize(term, { outcome: this.outcomesTerm });
 	}
-	
+
 	_onAlertClosed() {
 		this._errored = false;
 	}
-	
+
 	_renderAlert() {
-		if( !this._errored ) {
+		if (!this._errored) {
 			return '';
 		}
 		return html`
@@ -228,9 +228,9 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</d2l-alert>
 		`;
 	}
-	
+
 	_renderHeader() {
-		if( this.noHeader ) {
+		if (this.noHeader) {
 			return '';
 		}
 		return html`
@@ -245,31 +245,31 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
+
 	_renderWarningModal() {
 		const outcomeLookup = {};
-		
-		const buildLookup = function( forest ) {
-			forest.forEach( outcome => {
+
+		const buildLookup = function(forest) {
+			forest.forEach(outcome => {
 				outcomeLookup[outcome.id] = outcome;
-				buildLookup( outcome.children || [] );
+				buildLookup(outcome.children || []);
 			});
 		};
-		
-		if( this._changesToApply && this._changesToApply.orphanedOutcomes ) {
-			buildLookup( this._changesToApply.orphanedOutcomes );
+
+		if (this._changesToApply && this._changesToApply.orphanedOutcomes) {
+			buildLookup(this._changesToApply.orphanedOutcomes);
 		}
-		
+
 		const actions = {
 			moveAndSave: () => {
 				const newTrees = this._changesToApply.newRegistryForest;
-				const existingTree = this._changesToApply.orphanedOutcomes.map( ASNActions.undecorateTree );
-				this._save( existingTree.concat( newTrees ), this._changesToApply.mappings );
+				const existingTree = this._changesToApply.orphanedOutcomes.map(ASNActions.undecorateTree);
+				this._save(existingTree.concat(newTrees), this._changesToApply.mappings);
 			},
-			deleteAndSave: this._save.bind( this, this._changesToApply.newRegistryForest ),
+			deleteAndSave: this._save.bind(this, this._changesToApply.newRegistryForest),
 			cancel: () => { this._changesToApply = null; }
 		};
-		
+
 		return html`
 			<program-outcomes-picker-warning-modal
 				?open="${!!this._changesToApply}"
@@ -283,19 +283,19 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			></program-outcomes-picker-warning-modal>
 		`;
 	}
-	
-	_renderLoadingOption( condition ) {
-		return ( this._loadingFilters && condition ) ? html`<d2l-loading-spinner></d2l-loading-spinner>` : '';
+
+	_renderLoadingOption(condition) {
+		return (this._loadingFilters && condition) ? html`<d2l-loading-spinner></d2l-loading-spinner>` : '';
 	}
-	
+
 	_renderJurisdictionSelector() {
-		const options = this._availableJurisdictions.map( jurisdiction => html`
+		const options = this._availableJurisdictions.map(jurisdiction => html`
 			<option value="${jurisdiction}">${jurisdiction}</option>
-		` );
-		if( options.length > 0 ) {
-			options.unshift( html`<option value="" class="nonselection">${this.localize( 'SelectJurisdiction' )}</option>` );
+		`);
+		if (options.length > 0) {
+			options.unshift(html`<option value="" class="nonselection">${this.localize('SelectJurisdiction')}</option>`);
 		}
-		
+
 		return html`<tr ?data-disabled="${this._loadingFilters}">
 			<td>
 				<label for="jurisdiction-select" class="d2l-label-text">${this.localize('Jurisdiction')}</label>
@@ -308,19 +308,19 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 					.value="${this._jurisdiction || ''}"
 					@change="${this._onJurisdictionChanged}"
 				>${options}</select>
-				${this._renderLoadingOption( !this._jurisdiction )}
+				${this._renderLoadingOption(!this._jurisdiction)}
 			</td>
 		</tr>`;
 	}
-	
+
 	_renderSubjectSelector() {
-		const options = this._availableSubjects.map( subject => html`
+		const options = this._availableSubjects.map(subject => html`
 			<option value="${subject}">${subject}</option>
-		` );
-		if( options.length > 1 ) {
-			options.unshift( html`<option value="" class="nonselection">${this.localize( 'SelectSubject' )}</option>` );
+		`);
+		if (options.length > 1) {
+			options.unshift(html`<option value="" class="nonselection">${this.localize('SelectSubject')}</option>`);
 		}
-		
+
 		return html`<tr ?data-disabled="${this._loadingFilters || !this._jurisdiction}">
 			<td>
 				<label for="subject-select" class="d2l-label-text">${this.localize('Subject')}</label>
@@ -333,20 +333,20 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 					.value="${this._subject || ''}"
 					@change="${this._onSubjectChanged}"
 				>${options}</select>
-				${this._renderLoadingOption( this._jurisdiction && !this._subject )}
+				${this._renderLoadingOption(this._jurisdiction && !this._subject)}
 			</td>
 		</tr>`;
 	}
-	
+
 	_renderFrameworkSelector() {
-		const options = this._availableFrameworks.map( framework => {
+		const options = this._availableFrameworks.map(framework => {
 			let text = framework.framework;
-			if( framework.year ) {
+			if (framework.year) {
 				text += ` (${framework.year})`;
 			}
 			return html`<option value="${framework.documentId}">${text}</option>`;
 		});
-		
+
 		return html`<tr ?data-disabled="${this._loadingFilters || !this._subject}">
 			<td>
 				<label for="framework-select" class="d2l-label-text">${this.localize('Framework')}</label>
@@ -358,19 +358,19 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 					.value="${this._documentId || ''}"
 					@change="${this._onFrameworkChanged}"
 				>${options}</select>
-				${this._renderLoadingOption( this._subject && !this._documentId )}
+				${this._renderLoadingOption(this._subject && !this._documentId)}
 			</td>
 		</tr>`;
 	}
-	
+
 	_renderEducationLevelSelector() {
-		const options = this._availableEducationLevels.map( educationLevel => html`
+		const options = this._availableEducationLevels.map(educationLevel => html`
 			<option value="${educationLevel}">${educationLevel}</option>
-		` );
-		if( options.length > 1 ) {
-			options.unshift( html`<option value="*">${this.localize( 'All' )}</option>` );
+		`);
+		if (options.length > 1) {
+			options.unshift(html`<option value="*">${this.localize('All')}</option>`);
 		}
-		
+
 		return html`<tr ?data-disabled="${this._loadingFilters || !this._documentId}">
 			<td>
 				<label for="education-level-select" class="d2l-label-text">${this.localize('EducationLevel')}</label>
@@ -382,21 +382,21 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 					.value="${this._educationLevel || '*'}"
 					@change="${this._onEducationLevelChanged}"
 				>${options}</select>
-				${this._renderLoadingOption( this._documentId )}
+				${this._renderLoadingOption(this._documentId)}
 			</td>
 		</tr>`;
 	}
-	
+
 	_onConnectionError() {
 		this._errored = true;
 	}
-	
+
 	_onConnectionErrorResolved() {
 		this._errored = false;
 	}
-	
+
 	render() {
-		if( this._loading ) {
+		if (this._loading) {
 			return html`
 				${this._renderAlert()}
 				<div style="width: 100%; height: 100%; display: flex;" aria-busy="true">
@@ -410,7 +410,7 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 				</div>
 			`;
 		}
-		
+
 		return html`
 			<div class="main">
 				${this._renderHeader()}
@@ -443,12 +443,12 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
-	updated( changedProperties ) {
-		super.updated( changedProperties );
-		if(
-			changedProperties.has( 'registryId' ) || 
-			changedProperties.has( 'loresEndpoint' )
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (
+			changedProperties.has('registryId') ||
+			changedProperties.has('loresEndpoint')
 		) {
 			// First update or core property changed. Re-initialize.
 			this._loading = true;
@@ -459,44 +459,44 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 				currentTree: null,
 				lockedOutcomes: new Set()
 			};
-			
-			Lores.setEndpoint( this.loresEndpoint );
+
+			Lores.setEndpoint(this.loresEndpoint);
 			this._reloadRegistry();
 		}
 	}
-	
+
 	_reloadRegistry() {
 		this._dataState.selectedOutcomes.clear();
 		this._dataState.externalOutcomes = [];
 		this._dataState.lockedOutcomes = new Set();
-		Lores.fetchRegistryAsync( this.registryId ).then( registry => {
-			return Lores.getOwnedLockedOutcomesAsync( this.registryId ).then( lockedOutcomes => {
+		Lores.fetchRegistryAsync(this.registryId).then(registry => {
+			return Lores.getOwnedLockedOutcomesAsync(this.registryId).then(lockedOutcomes => {
 				const lockedOutcomesSet = new Set();
-				lockedOutcomes.forEach( outcomeId => lockedOutcomesSet.add( outcomeId ) );
-				
+				lockedOutcomes.forEach(outcomeId => lockedOutcomesSet.add(outcomeId));
+
 				registry.objectives.forEach(
-					outcome => this._initSelectedRecursive( outcome, null, lockedOutcomesSet )
+					outcome => this._initSelectedRecursive(outcome, null, lockedOutcomesSet)
 				);
-				this._onJurisdictionChanged( null );
+				this._onJurisdictionChanged(null);
 				this._loading = false;
 				this.performUpdate();
 			});
-		}).catch( exception => {
-			console.error( exception ); // eslint-disable-line no-console
+		}).catch(exception => {
+			console.error(exception); // eslint-disable-line no-console
 			this._errored = true;
 		});
 	}
-	
-	_initSelectedRecursive( outcome, parent, lockedOutcomes ) {
-		if( outcome.source === 'asn' ) {
-			this._dataState.selectedOutcomes.set( outcome.source_id, parent ? parent.source_id : null );
-			if( outcome.children ) {
+
+	_initSelectedRecursive(outcome, parent, lockedOutcomes) {
+		if (outcome.source === 'asn') {
+			this._dataState.selectedOutcomes.set(outcome.source_id, parent ? parent.source_id : null);
+			if (outcome.children) {
 				let locked = false;
-				outcome.children.forEach( child => {
-					locked = this._initSelectedRecursive( child, outcome, lockedOutcomes ) || locked;
+				outcome.children.forEach(child => {
+					locked = this._initSelectedRecursive(child, outcome, lockedOutcomes) || locked;
 				});
-				if( locked ) {
-					this._dataState.lockedOutcomes.add( outcome.source_id );
+				if (locked) {
+					this._dataState.lockedOutcomes.add(outcome.source_id);
 				}
 				return locked;
 			}
@@ -506,142 +506,142 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 				parentSourceId: parent ? parent.source_id : null,
 				tree: outcome
 			});
-			return this._hasLockedDescendant( outcome, lockedOutcomes );
+			return this._hasLockedDescendant(outcome, lockedOutcomes);
 		}
 	}
-	
-	_hasLockedDescendant( outcome, lockedOutcomes ) {
-		if( lockedOutcomes.has( outcome.id ) ) {
+
+	_hasLockedDescendant(outcome, lockedOutcomes) {
+		if (lockedOutcomes.has(outcome.id)) {
 			return true;
-		} else if( !outcome.children || !outcome.children.length ) {
+		} else if (!outcome.children || !outcome.children.length) {
 			return false;
 		}
-		return outcome.children.some( c => this._hasLockedDescendant( c, lockedOutcomes ) );
+		return outcome.children.some(c => this._hasLockedDescendant(c, lockedOutcomes));
 	}
-	
-	_onJurisdictionChanged( jurisdiction ) {
-		if( jurisdiction instanceof Event ) {
+
+	_onJurisdictionChanged(jurisdiction) {
+		if (jurisdiction instanceof Event) {
 			jurisdiction = jurisdiction.target.value;
 		}
-		
+
 		this._jurisdiction = jurisdiction || null;
 		this._subject = null;
 		this._documentId = null;
 		this._educationLevel = null;
-		
+
 		this._availableSubjects = [];
 		this._availableFrameworks = [];
 		this._availableEducationLevels = [];
-		
-		if( this._jurisdiction ) {
+
+		if (this._jurisdiction) {
 			this._loadingFilters = true;
-			ASN.fetchSubjectsAsync( this._jurisdiction ).then( subjects => {
+			ASN.fetchSubjectsAsync(this._jurisdiction).then(subjects => {
 				this._loadingFilters = false;
 				this._errored = false;
 				this._availableSubjects = subjects;
-				if( subjects.length === 1 ) {
-					this._onSubjectChanged( subjects[0] );
+				if (subjects.length === 1) {
+					this._onSubjectChanged(subjects[0]);
 				}
-			}).catch( () => {
+			}).catch(() => {
 				this._loadingFilters = false;
 				this._errored = true;
 			});
 		}
 	}
-	
-	_onSubjectChanged( subject ) {
-		if( subject instanceof Event ) {
+
+	_onSubjectChanged(subject) {
+		if (subject instanceof Event) {
 			subject = subject.target.value;
 		}
-		
+
 		this._subject = subject || null;
 		this._documentId = null;
 		this._educationLevel = null;
-		
+
 		this._availableFrameworks = [];
 		this._availableEducationLevels = [];
-		
-		if( this._subject ) {
+
+		if (this._subject) {
 			this._loadingFilters = true;
-			ASN.fetchFrameworksAsync( this._jurisdiction, this._subject ).then( frameworks => {
+			ASN.fetchFrameworksAsync(this._jurisdiction, this._subject).then(frameworks => {
 				this._loadingFilters = false;
 				this._errored = false;
 				this._availableFrameworks = frameworks;
-				if( frameworks.length ) {
-					this._onFrameworkChanged( frameworks[0].documentId );
+				if (frameworks.length) {
+					this._onFrameworkChanged(frameworks[0].documentId);
 				}
-			}).catch( exception => {
-				console.error( exception ); // eslint-disable-line no-console
+			}).catch(exception => {
+				console.error(exception); // eslint-disable-line no-console
 				this._loadingFilters = false;
 				this._errored = true;
 			});
 		}
 	}
-	
-	_onFrameworkChanged( documentId ) {
-		if( documentId instanceof Event ) {
+
+	_onFrameworkChanged(documentId) {
+		if (documentId instanceof Event) {
 			documentId = documentId.target.value;
 		}
-		
+
 		this._documentId = documentId || null;
 		this._educationLevel = null;
-		
+
 		this._availableEducationLevels = [];
-		
-		if( this._documentId ) {
+
+		if (this._documentId) {
 			this._loadingFilters = true;
-			ASN.fetchEducationLevelsAsync( this._documentId, this._subject ).then( educationLevels => {
+			ASN.fetchEducationLevelsAsync(this._documentId, this._subject).then(educationLevels => {
 				this._loadingFilters = false;
 				this._errored = false;
 				this._availableEducationLevels = educationLevels;
-				this._onEducationLevelChanged( educationLevels.length === 1 ? educationLevels[0] : null );
-			}).catch( exception => {
-				console.error( exception ); // eslint-disable-line no-console
+				this._onEducationLevelChanged(educationLevels.length === 1 ? educationLevels[0] : null);
+			}).catch(exception => {
+				console.error(exception); // eslint-disable-line no-console
 				this._loadingFilters = false;
 				this._errored = true;
 			});
 		}
 	}
-	
-	_onEducationLevelChanged( educationLevel ) {
-		if( educationLevel instanceof Event ) {
+
+	_onEducationLevelChanged(educationLevel) {
+		if (educationLevel instanceof Event) {
 			educationLevel = educationLevel.target.value;
 		}
-		
+
 		this._educationLevel = educationLevel === '*' ? null : educationLevel || null;
 	}
-	
+
 	_close() {
 		this.dispatchEvent(
 			new CustomEvent(
 				'd2l-asn-outcomes-picker-cancel',
-				{ bubbles: false } 
+				{ bubbles: false }
 			)
 		);
 	}
-	
+
 	_onImport() {
 		this._loading = true;
 		ASNActions.buildNewRegistryAsync(
 			this._dataState,
 			this.orgUnitId
-		).then( results => {
-			if( results.orphanedOutcomes.length ) {
-				results.canMoveToRoot = !results.orphanedOutcomes.some( o => o.owner !== this.registryId );
+		).then(results => {
+			if (results.orphanedOutcomes.length) {
+				results.canMoveToRoot = !results.orphanedOutcomes.some(o => o.owner !== this.registryId);
 				this._changesToApply = results;
 			} else {
-				this._save( results.newRegistryForest, results.mappings );
+				this._save(results.newRegistryForest, results.mappings);
 			}
-		}).catch( exception => {
-			console.error( exception ); // eslint-disable-line no-console
+		}).catch(exception => {
+			console.error(exception); // eslint-disable-line no-console
 			this._loading = false;
 			this._errored = true;
 		});
 	}
-	
-	_save( newRegistryForest, mappings ) {
+
+	_save(newRegistryForest, mappings) {
 		this._loading = true;
-		Lores.updateRegistryAsync( this.registryId, newRegistryForest ).then( () => {
+		Lores.updateRegistryAsync(this.registryId, newRegistryForest).then(() => {
 			this._changesToApply = null;
 			this.dispatchEvent(
 				new CustomEvent(
@@ -651,12 +651,12 @@ class AsnOutcomesPicker extends  LocalizeMixin(LitElement) {
 							ObjectivesWithSource: mappings,
 							ObjectiveTree: newRegistryForest
 						}
-					} 
+					}
 				)
 			);
-		}).then( this._reloadRegistry.bind( this ) );
+		}).then(this._reloadRegistry.bind(this));
 	}
-	
-} 
 
-customElements.define( 'd2l-asn-outcomes-picker', AsnOutcomesPicker );
+}
+
+customElements.define('d2l-asn-outcomes-picker', AsnOutcomesPicker);

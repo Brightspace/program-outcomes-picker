@@ -1,17 +1,17 @@
-import { LitElement, css, html } from 'lit-element/lit-element.js';
-import Actions from './internal/program-actions.js';
-import SelectStyle from './internal/select-style.js';
-import { bodyStandardStyles, bodyCompactStyles, heading2Styles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import Lores from './internal/lores.js';
-import { LocalizeMixin } from './internal/localized-element.js';
-import './internal/program-outcomes-picker-tree.js';
-import './internal/orphaned-outcomes-warning.js';
 import '@brightspace-ui/core/components/button/button.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
+import './internal/orphaned-outcomes-warning.js';
+import './internal/program-outcomes-picker-tree.js';
+import { bodyCompactStyles, bodyStandardStyles, heading2Styles, heading3Styles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import Actions from './internal/program-actions.js';
+import { LocalizeMixin } from './internal/localized-element.js';
+import Lores from './internal/lores.js';
+import SelectStyle from './internal/select-style.js';
 
 class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
-	
+
 	static get properties() {
 		return {
 			registryId: { type: String, attribute: 'registry-id' },
@@ -19,7 +19,7 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 			loresEndpoint: { type: String, attribute: 'lores-endpoint' },
 			outcomesTerm: { type: String, attribute: 'outcome-term' },
 			noHeader: { type: Boolean, attribute: 'no-header' },
-			
+
 			_dataState: { type: Object },
 			_loading: { type: Boolean },
 			_selectedProgramRegistryId: { type: String },
@@ -27,7 +27,7 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 			_errored: { type: Boolean }
 		};
 	}
-	
+
 	static get styles() {
 		const componentStyle = css`
 			.main {
@@ -95,7 +95,7 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 				width: calc( 100% - 8px );
 			}
 		`;
-		
+
 		return [
 			bodyStandardStyles, bodyCompactStyles,
 			heading2Styles, heading3Styles,
@@ -104,7 +104,7 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 			componentStyle
 		];
 	}
-	
+
 	constructor() {
 		super();
 		this.registryId = null;
@@ -115,7 +115,7 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 		this._changesToApply = null;
 		this.outcomesTerm = 'standards';
 		this._errored = false;
-		
+
 		this._dataState = {
 			programRegistries: {},
 			mergedProgramForestMap: {},
@@ -125,34 +125,34 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 			expandState: {}
 		};
 	}
-	
+
 	connectedCallback() {
 		this._dataState.currentRegistryId = this.registryId;
 		this._dataState.availableProgramInfo = this.programs;
 		this._dataState.selectedProgramRegistryId = this.programs[0].registryId;
 		this._selectedProgramRegistryId = this.programs[0].registryId;
-		Lores.setEndpoint( this.loresEndpoint );
+		Lores.setEndpoint(this.loresEndpoint);
 		super.connectedCallback();
 	}
-	
+
 	_renderOptions() {
-		return this.programs.map( program => {
+		return this.programs.map(program => {
 			return html`
 				<option value="${program.registryId}">${program.name}</option>
 			`;
 		});
 	}
-	
-	localize( term ) {
-		return super.localize( term, { outcome: this.outcomesTerm } );
+
+	localize(term) {
+		return super.localize(term, { outcome: this.outcomesTerm });
 	}
-	
+
 	_onAlertClosed() {
 		this._errored = false;
 	}
-	
+
 	_renderAlert() {
-		if( !this._errored ) {
+		if (!this._errored) {
 			return '';
 		}
 		return html`
@@ -166,9 +166,9 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</d2l-alert>
 		`;
 	}
-	
+
 	_renderHeader() {
-		if( this.noHeader ) {
+		if (this.noHeader) {
 			return '';
 		}
 		return html`
@@ -183,13 +183,13 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
-	_suppressEventBehaviour( event ) {
+
+	_suppressEventBehaviour(event) {
 		event.preventDefault();
 	}
-	
+
 	render() {
-		if( this._loading ) {
+		if (this._loading) {
 			return html`
 				${this._renderAlert()}
 				<div style="width: 100%; height: 100%; display: flex;" aria-busy="true">
@@ -203,7 +203,7 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 				</div>
 			`;
 		}
-		
+
 		const options = this._renderOptions();
 		return html`
 			<program-outcomes-picker-warning-modal
@@ -242,13 +242,13 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
-	updated( changedProperties ) {
-		super.updated( changedProperties );
-		if(
-			changedProperties.has( 'programs' ) || 
-			changedProperties.has( 'registryId' ) ||
-			changedProperties.has( 'loresEndpoint' )
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (
+			changedProperties.has('programs') ||
+			changedProperties.has('registryId') ||
+			changedProperties.has('loresEndpoint')
 		) {
 			// First update or core property changed. Re-initialize.
 			this._loading = true;
@@ -261,83 +261,83 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 				programState: null,
 				expandState: {}
 			};
-			
-			Lores.setEndpoint( this.loresEndpoint );
-			if( !this.programs.length ) {
+
+			Lores.setEndpoint(this.loresEndpoint);
+			if (!this.programs.length) {
 				this._errored = true;
 				return;
 			}
-			
-			const programRegistryIds = this.programs.map( p => p.registryId );
-			programRegistryIds.forEach( registryId => this._dataState.expandState[registryId] = {} );
-			Actions.initializeAsync( this._dataState, this.registryId, programRegistryIds ).then(
+
+			const programRegistryIds = this.programs.map(p => p.registryId);
+			programRegistryIds.forEach(registryId => this._dataState.expandState[registryId] = {});
+			Actions.initializeAsync(this._dataState, this.registryId, programRegistryIds).then(
 				() => this._loading = false
-			).catch( exception => {
-				console.error( exception ); //eslint-disable-line no-console
+			).catch(exception => {
+				console.error(exception); //eslint-disable-line no-console
 				this._errored = true;
 			});
 		}
 	}
-	
-	_onSelectProgram( event ) {
+
+	_onSelectProgram(event) {
 		const registryId = event.target.value;
 		this._selectedProgramRegistryId = registryId;
-		Actions.selectProgram( this._dataState, registryId );
+		Actions.selectProgram(this._dataState, registryId);
 	}
-	
+
 	_finish() {
-		const result = Actions.buildNewRegistry( this._dataState, this.registryId );
-		if( result.orphanedOwnedOutcomes.length ) {
+		const result = Actions.buildNewRegistry(this._dataState, this.registryId);
+		if (result.orphanedOwnedOutcomes.length) {
 			this._changesToApply = result;
 		} else {
-			this._saveAsync( result.newRegistryForest ).catch( () => null );
+			this._saveAsync(result.newRegistryForest).catch(() => null);
 		}
-		
+
 	}
-	
+
 	_moveOrphanedOutcomesAndSave() {
-		const newRegistryContents = this._changesToApply.newRegistryForest.concat( this._changesToApply.orphanedOwnedOutcomes );
-		this._saveAsync( newRegistryContents ).then( () => {
-			this._changesToApply.orphanedOwnedOutcomes.forEach( movedOutcome => {
-				this._dataState.rootOutcomes.add( movedOutcome.id );
+		const newRegistryContents = this._changesToApply.newRegistryForest.concat(this._changesToApply.orphanedOwnedOutcomes);
+		this._saveAsync(newRegistryContents).then(() => {
+			this._changesToApply.orphanedOwnedOutcomes.forEach(movedOutcome => {
+				this._dataState.rootOutcomes.add(movedOutcome.id);
 				const masterNode = this._dataState.mergedProgramForestMap[movedOutcome.id];
-				masterNode.parent.children.splice( masterNode.parent.children.indexOf( masterNode ), 1 );
+				masterNode.parent.children.splice(masterNode.parent.children.indexOf(masterNode), 1);
 				masterNode.parent = null;
 			});
-		}).finally( () => {
+		}).finally(() => {
 			this._changesToApply = null;
 		});
 	}
-	
+
 	_deleteOrphanedOutcomesAndSave() {
-		this._saveAsync( this._changesToApply.newRegistryForest ).then( () => {
-			this._changesToApply.orphanedOwnedOutcomes.forEach( deletedOutcome => {
+		this._saveAsync(this._changesToApply.newRegistryForest).then(() => {
+			this._changesToApply.orphanedOwnedOutcomes.forEach(deletedOutcome => {
 				const masterNode = this._dataState.mergedProgramForestMap[deletedOutcome.id];
-				masterNode.parent.children.splice( masterNode.parent.children.indexOf( masterNode ), 1 );
-				this._deleteOrphanedOutcomesRecursive( deletedOutcome );
+				masterNode.parent.children.splice(masterNode.parent.children.indexOf(masterNode), 1);
+				this._deleteOrphanedOutcomesRecursive(deletedOutcome);
 			});
-		}).finally( () => {
+		}).finally(() => {
 			this._changesToApply = null;
 		});
 	}
-	
-	_deleteOrphanedOutcomesRecursive( deletedOutcome ) {
+
+	_deleteOrphanedOutcomesRecursive(deletedOutcome) {
 		delete this._dataState.mergedProgramForestMap[deletedOutcome.id];
-		if( deletedOutcome.children.length ) {
-			deletedOutcome.children.forEach( this._deleteOrphanedOutcomesRecursive.bind( this ) );
+		if (deletedOutcome.children.length) {
+			deletedOutcome.children.forEach(this._deleteOrphanedOutcomesRecursive.bind(this));
 		} else {
-			this._dataState.ownedAuthoredLeafOutcomes.delete( deletedOutcome.id );
+			this._dataState.ownedAuthoredLeafOutcomes.delete(deletedOutcome.id);
 		}
 	}
-	
-	_saveAsync( newRegistryContents ) {
+
+	_saveAsync(newRegistryContents) {
 		this._loading = true;
 		this._errored = false;
-		return Lores.updateRegistryAsync( this.registryId, newRegistryContents ).then( () => {
+		return Lores.updateRegistryAsync(this.registryId, newRegistryContents).then(() => {
 			this._loading = false;
-			
+
 			const outcomeMappings = [];
-			this._buildOutcomeMappingsRecursive( newRegistryContents, outcomeMappings );
+			this._buildOutcomeMappingsRecursive(newRegistryContents, outcomeMappings);
 			this.dispatchEvent(
 				new CustomEvent(
 					'd2l-program-outcomes-picker-import', {
@@ -346,20 +346,20 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 							ObjectivesWithSource: outcomeMappings,
 							ObjectiveTree: newRegistryContents
 						}
-					} 
+					}
 				)
 			);
-		}).catch( exception => {
+		}).catch(exception => {
 			this._loading = false;
 			this._errored = true;
 			throw exception;
 		});
 	}
-	
-	_buildOutcomeMappingsRecursive( nodes, results ) {
-		nodes.forEach( node => {
+
+	_buildOutcomeMappingsRecursive(nodes, results) {
+		nodes.forEach(node => {
 			const outcome = this._dataState.mergedProgramForestMap[node.id];
-			if( outcome ) {
+			if (outcome) {
 				results.push({
 					id: node.id,
 					source: {
@@ -368,25 +368,25 @@ class ProgramOutcomesPicker extends  LocalizeMixin(LitElement) {
 					}
 				});
 			}
-			if( node.children && node.children.length ) {
-				this._buildOutcomeMappingsRecursive( node.children, results );
+			if (node.children && node.children.length) {
+				this._buildOutcomeMappingsRecursive(node.children, results);
 			}
 		});
 	}
-	
+
 	_cancelSave() {
 		this._changesToApply = null;
 	}
-	
+
 	_close() {
 		this.dispatchEvent(
 			new CustomEvent(
 				'd2l-program-outcomes-picker-cancel',
-				{ bubbles: false } 
+				{ bubbles: false }
 			)
 		);
 	}
-	
-} 
 
-customElements.define( 'd2l-program-outcomes-picker', ProgramOutcomesPicker );
+}
+
+customElements.define('d2l-program-outcomes-picker', ProgramOutcomesPicker);

@@ -1,14 +1,14 @@
-import { LitElement, css, html } from 'lit-element/lit-element.js';
-import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { CheckboxState } from './enums.js';
-import { bodyCompactStyles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
-import { Browser, OS } from './browser-check.js';
-import { LocalizeMixin } from './localized-element.js';
-import OutcomeFormatter from './outcome-formatter.js';
 import '@brightspace-ui/core/components/button/button-icon.js';
 import '@brightspace-ui/core/components/inputs/input-checkbox.js';
 import '@brightspace-ui/core/components/offscreen/offscreen.js';
 import 'd2l-alert/d2l-alert.js';
+import { bodyCompactStyles, labelStyles } from '@brightspace-ui/core/components/typography/styles.js';
+import { Browser, OS } from './browser-check.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { CheckboxState } from './enums.js';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { LocalizeMixin } from './localized-element.js';
+import OutcomeFormatter from './outcome-formatter.js';
 
 const CheckboxStateInfo = {
 	[ CheckboxState.NOT_CHECKED ]: { checked: false, indeterminate: false, ariaChecked: 'false', checkedTerm: 'CheckedFalse' },
@@ -21,7 +21,7 @@ Abstract class extended by program-outcomes-picker-node and asn-outcomes-picker-
 */
 
 class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
-	
+
 	static get properties() {
 		return {
 			htmlId: { type: String },
@@ -31,7 +31,7 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 			_depth: { type: Number }
 		};
 	}
-	
+
 	static get style() {
 		const componentStyle = css`
 			li.outcome-node .outcome {
@@ -143,7 +143,7 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 		`;
 		return [ bodyCompactStyles, componentStyle, labelStyles ];
 	}
-	
+
 	constructor() {
 		super();
 		this.htmlId = '';
@@ -151,42 +151,42 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 		this._expanded = false;
 		this._hasFocus = false;
 	}
-	
+
 	createRenderRoot() {
 		// Render into the light DOM instead of the shadow DOM
 		return this;
 	}
-	
+
 	render() {
 		const { checked, indeterminate, ariaChecked, checkedTerm } = CheckboxStateInfo[this.checkboxState];
 		const siblings = this._getSiblings();
-		
+
 		let ariaExpanded = undefined;
-		if( this._hasChildren() ) {
+		if (this._hasChildren()) {
 			ariaExpanded = this._expanded ? 'true' : 'false';
 		}
-		
+
 		const locked = this.getSelectionNode().locked;
 		let lockIcon = '';
-		if( locked ) {
+		if (locked) {
 			lockIcon = html`<d2l-icon icon="d2l-tier1:lock-locked" class="lock-icon"></d2l-icon>`;
 		}
-		
+
 		const disabled = this.getSelectionNode().isDisabled();
 		let voiceoverFix = undefined;
-		if( OS.isMac()  ) {
-			const disabledText = disabled ? html`, ${this.localize( 'Disabled' )}` : '';
+		if (OS.isMac()) {
+			const disabledText = disabled ? html`, ${this.localize('Disabled')}` : '';
 			voiceoverFix = html`
-				<span class="offscreen">, ${this.localize( checkedTerm )}${disabledText}</span>
+				<span class="offscreen">, ${this.localize(checkedTerm)}${disabledText}</span>
 			`;
 		}
 
 		const assessed = this.getSelectionNode().assessed;
 		let labelText = '';
-		if ( assessed ) {
-			labelText = this.localize( 'Assessed' );
+		if (assessed) {
+			labelText = this.localize('Assessed');
 		}
-		
+
 		return html`
 			<li
 				id="${this.htmlId}"
@@ -228,32 +228,32 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 			</li>
 		`;
 	}
-	
+
 	renderChildren() {
 		/* Implement in derived class */
 	}
-	
+
 	getSelectionNode() {
 		/* Implement in derived class */
 	}
-	
+
 	getRoots() {
 		/* Implement in derived class */
 	}
-	
+
 	getOutcome() {
 		/* Implement in derived class */
 	}
-	
-	onSetExpanded( isExpanded ) { //eslint-disable-line no-unused-vars
+
+	onSetExpanded(isExpanded) { //eslint-disable-line no-unused-vars
 		/* Implement in derived class */
 	}
-	
+
 	_renderExpander() {
-		if( !this._hasChildren() ) {
+		if (!this._hasChildren()) {
 			return html`<div class="expander-spacer"></div>`;
 		}
-		
+
 		return html`
 			<d2l-button-icon
 				icon="${this._expanded ? 'd2l-tier1:arrow-collapse' : 'd2l-tier1:arrow-expand'}"
@@ -264,38 +264,38 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 			></d2l-button-icon>
 		`;
 	}
-	
-	_setExpanded( isExpanded ) {
+
+	_setExpanded(isExpanded) {
 		this._expanded = isExpanded;
-		this.onSetExpanded( isExpanded );
+		this.onSetExpanded(isExpanded);
 	}
-	
+
 	_toggleExpansion() {
-		this._setExpanded( !this._expanded );
+		this._setExpanded(!this._expanded);
 	}
-	
+
 	_isRtl() {
-		return window.getComputedStyle( this ).direction === 'rtl';
+		return window.getComputedStyle(this).direction === 'rtl';
 	}
-	
+
 	_onCheckboxChanged() {
 		const selectionNode = this.getSelectionNode();
 		selectionNode.toggle();
 		this.checkboxState = selectionNode.checkboxState;
-		
+
 		const checkbox = this.querySelector(`#${this.htmlId}\\:checkbox`);
-		if( checkbox ) {
+		if (checkbox) {
 			const newState = CheckboxStateInfo[selectionNode.checkboxState];
 			checkbox.checked = newState.checked;
 			checkbox.indeterminate = newState.indeterminate;
 		}
-		
-		if( OS.isMac() ) {
-			const notification = document.createElement( 'd2l-offscreen' );
-			notification.setAttribute( 'role', 'alert' );
-			notification.textContent = this.localize( CheckboxStateInfo[selectionNode.checkboxState].checkedTerm );
-			document.body.appendChild( notification );
-			setTimeout( () => document.body.removeChild( notification ), 500 );
+
+		if (OS.isMac()) {
+			const notification = document.createElement('d2l-offscreen');
+			notification.setAttribute('role', 'alert');
+			notification.textContent = this.localize(CheckboxStateInfo[selectionNode.checkboxState].checkedTerm);
+			document.body.appendChild(notification);
+			setTimeout(() => document.body.removeChild(notification), 500);
 		}
 
 		this.dispatchEvent(
@@ -308,120 +308,120 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 			)
 		);
 	}
-	
+
 	_hasChildren() {
 		return this.getSelectionNode().children.length > 0;
 	}
-	
+
 	_getChildren() {
-		return this.getSelectionNode().children.map( node => node.elementRef );
+		return this.getSelectionNode().children.map(node => node.elementRef);
 	}
-	
+
 	_getParent() {
 		const parentData = this.getSelectionNode().parent;
 		return parentData ? parentData.elementRef : null;
 	}
-	
+
 	_getSiblings() {
 		const parent = this._getParent();
 		return parent ? parent._getChildren() : this.getRoots();
 	}
-	
+
 	_focusNode() {
 		this._hasFocus = true;
-		
+
 		let treeRoot = this.parentNode;
-		while( treeRoot && treeRoot.id !== 'tree-root' ) {
+		while (treeRoot && treeRoot.id !== 'tree-root') {
 			treeRoot = treeRoot.parentNode;
 		}
-		
-		if( !treeRoot ) {
+
+		if (!treeRoot) {
 			return;
 		}
-		
+
 		const treeComponent = treeRoot.parentNode.parentNode.host;
-		if( treeComponent._focusedNode && treeComponent._focusedNode !== this ) {
+		if (treeComponent._focusedNode && treeComponent._focusedNode !== this) {
 			treeComponent._focusedNode._hasFocus = false;
 		}
 		treeComponent._focusedNode = this;
-		
+
 		// VoiceOver workaround
-		const li = this.querySelector( '#' + this.htmlId );
-		if( li ) {
-			if( Browser.isSafari() ) {
+		const li = this.querySelector(`#${this.htmlId}`);
+		if (li) {
+			if (Browser.isSafari()) {
 				treeRoot.blur();
-				const dummyElement = document.createElement( 'div' );
-				dummyElement.setAttribute( 'tabindex', '-1' );
-				document.body.appendChild( dummyElement );
+				const dummyElement = document.createElement('div');
+				dummyElement.setAttribute('tabindex', '-1');
+				document.body.appendChild(dummyElement);
 				dummyElement.focus();
 				treeRoot.focus();
-				document.body.removeChild( dummyElement );
+				document.body.removeChild(dummyElement);
 			} else {
 				li.focus();
 			}
 		}
 	}
-	
+
 	_focusNext() {
 		const siblings = this._getSiblings();
-		const index = siblings.indexOf( this );
-		if( index >= siblings.length - 1 ) {
+		const index = siblings.indexOf(this);
+		if (index >= siblings.length - 1) {
 			const parent = this._getParent();
-			if( parent ) {
+			if (parent) {
 				parent._focusNext();
 			}
 		} else {
 			siblings[index + 1]._focusNode();
 		}
 	}
-	
+
 	_focusFirstVisibleDescendant() {
 		let node = this;
-		while( node._expanded && node._hasChildren() ) {
+		while (node._expanded && node._hasChildren()) {
 			node = node._getChildren()[0];
 		}
 		node._focusNode();
 	}
-	
+
 	_focusLastVisibleDescendant() {
 		let node = this;
-		while( node._expanded && node._hasChildren() ) {
+		while (node._expanded && node._hasChildren()) {
 			const children = node._getChildren();
 			node = children[children.length - 1];
 		}
 		node._focusNode();
 	}
-	
-	_collapseOrMoveUp( noCollapse ) {
-		if( this._expanded && this._hasChildren() && !noCollapse ) {
-			this._setExpanded( false );
+
+	_collapseOrMoveUp(noCollapse) {
+		if (this._expanded && this._hasChildren() && !noCollapse) {
+			this._setExpanded(false);
 			return;
 		}
-		
+
 		const parent = this._getParent();
-		if( parent ) {
+		if (parent) {
 			parent._focusNode();
 		}
 	}
-	
+
 	_expandOrMoveDown() {
-		if( this._hasChildren() ) {
-			if( this._expanded ) {
+		if (this._hasChildren()) {
+			if (this._expanded) {
 				this._getChildren()[0]._focusNode();
 			} else {
-				this._setExpanded( true );
+				this._setExpanded(true);
 			}
 		}
 	}
-	
-	handleKeyDownEvent( event ) {
-		switch( event.keyCode ) {
+
+	handleKeyDownEvent(event) {
+		switch (event.keyCode) {
 			case 38: { // Up Arrow
 				const siblings = this._getSiblings();
-				const index = siblings.indexOf( this );
-				if( index <= 0 ) {
+				const index = siblings.indexOf(this);
+				if (index <= 0) {
 					const parent = this._getParent();
-					if( parent ) {
+					if (parent) {
 						parent._focusNode();
 					}
 				} else {
@@ -430,27 +430,27 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 				break;
 			}
 			case 40: // Down Arrow
-				if( this._expanded && this._hasChildren() ) {
+				if (this._expanded && this._hasChildren()) {
 					this._getChildren()[0]._focusNode();
 				} else {
 					this._focusNext();
 				}
 				break;
 			case 39: // Right Arrow
-				this._isRtl() ? this._collapseOrMoveUp( event.ctrlKey ) : this._expandOrMoveDown();
+				this._isRtl() ? this._collapseOrMoveUp(event.ctrlKey) : this._expandOrMoveDown();
 				break;
 			case 37: // Left Arrow
-				this._isRtl() ? this._expandOrMoveDown() : this._collapseOrMoveUp( event.ctrlKey );
+				this._isRtl() ? this._expandOrMoveDown() : this._collapseOrMoveUp(event.ctrlKey);
 				break;
 			case 36: // Home
-				if( event.ctrlKey ) {
+				if (event.ctrlKey) {
 					this.getRoots()[0]._focusFirstVisibleDescendant();
 				} else {
 					this._getSiblings()[0]._focusNode();
 				}
 				break;
 			case 35: { // End
-				if( event.ctrlKey ) {
+				if (event.ctrlKey) {
 					const roots = this.getRoots();
 					roots[roots.length - 1]._focusLastVisibleDescendant();
 				} else {
@@ -466,12 +466,12 @@ class OutcomeTreeNode extends  LocalizeMixin(LitElement) {
 			default:
 				return true;
 		}
-		
+
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
 	}
-	
+
 }
 
 export default OutcomeTreeNode;

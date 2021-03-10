@@ -1,18 +1,18 @@
-import { LitElement, css, html } from 'lit-element/lit-element.js';
-import { heading2Styles } from '@brightspace-ui/core/components/typography/styles.js';
-import { createNode, TreeBehaviour } from './internal/selection-state-node.js';
-import { CheckboxState } from './internal/enums.js';
-import Lores from './internal/lores.js';
-import { LocalizeMixin } from './internal/localized-element.js';
-import Valence from './internal/valence.js';
 import './internal/unlink-outcomes-picker-tree.js';
 import './internal/orphaned-outcomes-warning.js';
 import '@brightspace-ui/core/components/loading-spinner/loading-spinner.js';
 import '@brightspace-ui/core/components/icons/icon.js';
 import 'd2l-alert/d2l-alert.js';
+import { createNode, TreeBehaviour } from './internal/selection-state-node.js';
+import { css, html, LitElement } from 'lit-element/lit-element.js';
+import { CheckboxState } from './internal/enums.js';
+import { heading2Styles } from '@brightspace-ui/core/components/typography/styles.js';
+import { LocalizeMixin } from './internal/localized-element.js';
+import Lores from './internal/lores.js';
+import Valence from './internal/valence.js';
 
 class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
-	
+
 	static get properties() {
 		return {
 			registryId: { type: String, attribute: 'registry-id' },
@@ -20,14 +20,14 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 			outcomesTerm: { type: String, attribute: 'outcome-term' },
 			noHeader: { type: Boolean, attribute: 'no-header' },
 			valenceHost: { type: String, attribute: 'valence-host' },
-			
+
 			_dataState: { type: Object },
 			_loading: { type: Boolean },
 			_errored: { type: Boolean },
 			_numSelected: { type: Number }
 		};
 	}
-	
+
 	static get styles() {
 		const componentStyle = css`
 			.main {
@@ -99,13 +99,13 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 				user-select: none;
 			}
 		`;
-		
+
 		return [
 			heading2Styles,
 			componentStyle
 		];
 	}
-	
+
 	constructor() {
 		super();
 		this.registryId = null;
@@ -115,18 +115,18 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 		this._loading = true;
 		this._errored = false;
 		this._numSelected = 0;
-		
+
 		this._dataState = {
 			outcomesMap: new Map(),
 			stateNodes: []
 		};
-		
+
 		this.addEventListener('d2l-outcome-selection-state-changed', this._onSelectionStateChanged.bind(this));
 	}
-	
+
 	connectedCallback() {
-		Lores.setEndpoint( this.loresEndpoint );
-		Valence.setHost( this.valenceHost );
+		Lores.setEndpoint(this.loresEndpoint);
+		Valence.setHost(this.valenceHost);
 		super.connectedCallback();
 	}
 
@@ -147,18 +147,18 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 
 		return this._dataState.stateNodes.reduce((cur, node) => cur + countSelectedRecursive(node), 0);
 	}
-	
-	localize( term, extra ) {
+
+	localize(term, extra) {
 		extra = Object.assign({ outcome: this.outcomesTerm }, extra);
-		return super.localize( term, extra );
+		return super.localize(term, extra);
 	}
-	
+
 	_onAlertClosed() {
 		this._errored = false;
 	}
 
-	_onError( err ) {
-		console.error( err );  //eslint-disable-line no-console
+	_onError(err) {
+		console.error(err);  //eslint-disable-line no-console
 		this._errored = true;
 		this._loading = false;
 	}
@@ -167,17 +167,17 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 		e.stopPropagation();
 		this._numSelected = this._computeNumSelected();
 	}
-	
-	_outcomeIsCourseLevel( outcome, registrySources ) {
+
+	_outcomeIsCourseLevel(outcome, registrySources) {
 		return outcome.owner && registrySources[outcome.owner].type === 'course';
 	}
-    
-	_outcomeIsLinked( outcome ) {
+
+	_outcomeIsLinked(outcome) {
 		return outcome.owner && outcome.owner !== this.registryId;
 	}
-	
+
 	_renderAlert() {
-		if( !this._errored ) {
+		if (!this._errored) {
 			return '';
 		}
 		return html`
@@ -191,9 +191,9 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</d2l-alert>
 		`;
 	}
-	
+
 	_renderHeader() {
-		if( this.noHeader ) {
+		if (this.noHeader) {
 			return '';
 		}
 		return html`
@@ -209,12 +209,12 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 		`;
 	}
 
-	_suppressEventBehaviour( event ) {
+	_suppressEventBehaviour(event) {
 		event.preventDefault();
 	}
-	
+
 	render() {
-		if( this._loading ) {
+		if (this._loading) {
 			return html`
 				${this._renderAlert()}
 				<div style="width: 100%; height: 100%; display: flex;" aria-busy="true">
@@ -233,10 +233,10 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 			'main'
 		];
 
-		if( this.noHeader ) {
-			mainClasses.push( 'no-header' );
+		if (this.noHeader) {
+			mainClasses.push('no-header');
 		}
-		
+
 		const countString = this._numSelected ? this.localize('NumSelected', { 'num': this._numSelected }) : '';
 		return html`
 			<div class="${mainClasses.join(' ')}">
@@ -260,13 +260,13 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 			</div>
 		`;
 	}
-	
-	updated( changedProperties ) {
-		super.updated( changedProperties );
-		if(
-			changedProperties.has( 'loresEndpoint' )
-			|| changedProperties.has( 'registryId' )
-			|| changedProperties.has( 'valenceHost' )
+
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		if (
+			changedProperties.has('loresEndpoint')
+			|| changedProperties.has('registryId')
+			|| changedProperties.has('valenceHost')
 		) {
 			this._loading = true;
 			this._errored = false;
@@ -274,63 +274,63 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 				outcomesMap: new Map(),
 				stateNodes: []
 			};
-			
-			Lores.setEndpoint( this.loresEndpoint );
-			Valence.setHost( this.valenceHost );
+
+			Lores.setEndpoint(this.loresEndpoint);
+			Valence.setHost(this.valenceHost);
 			Promise.all([
-				Lores.fetchRegistryAsync( this.registryId ),
-				Lores.getOwnedLockedOutcomesAsync( this.registryId ),
-				Valence.getAlignedOutcomesStatus( this.registryId )
-			]).then( responses => {
+				Lores.fetchRegistryAsync(this.registryId),
+				Lores.getOwnedLockedOutcomesAsync(this.registryId),
+				Valence.getAlignedOutcomesStatus(this.registryId)
+			]).then(responses => {
 				const registry = responses[0];
 
 				const lockedOutcomes = new Set();
-				responses[1].forEach( x => lockedOutcomes.add( x ) );
+				responses[1].forEach(x => lockedOutcomes.add(x));
 
 				const assessedOutcomes = new Set();
-				responses[2].forEach( objInfo => {
-					if ( objInfo.HasAssessments ) {
-						assessedOutcomes.add( objInfo.ObjectiveId );
+				responses[2].forEach(objInfo => {
+					if (objInfo.HasAssessments) {
+						assessedOutcomes.add(objInfo.ObjectiveId);
 					}
-				} );
+				});
 
 				const outcomeRegistrySet = new Set();
-				const addRegistriesRecursive = function( outcomes ) {
-					outcomes.forEach( outcome => {
-						outcome.owner && outcomeRegistrySet.add( outcome.owner );
-						outcome.children && addRegistriesRecursive( outcome.children );
-					} );
+				const addRegistriesRecursive = function(outcomes) {
+					outcomes.forEach(outcome => {
+						outcome.owner && outcomeRegistrySet.add(outcome.owner);
+						outcome.children && addRegistriesRecursive(outcome.children);
+					});
 				};
-				addRegistriesRecursive( registry.objectives );
+				addRegistriesRecursive(registry.objectives);
 
-				Valence.getRegistrySources( Array.from( outcomeRegistrySet ) ).then( sourceData => {
+				Valence.getRegistrySources(Array.from(outcomeRegistrySet)).then(sourceData => {
 
-					const registrySources = sourceData.reduce( ( acc, data ) => {
+					const registrySources = sourceData.reduce((acc, data) => {
 						const id = data.registry_id;
 						delete data.registry_id;
 						acc[id] = data;
 						return acc;
-					}, {} );
+					}, {});
 
-					this._dataState.stateNodes = this._buildState( registry.objectives, lockedOutcomes, assessedOutcomes, registrySources, null );
+					this._dataState.stateNodes = this._buildState(registry.objectives, lockedOutcomes, assessedOutcomes, registrySources, null);
 					this._loading = false;
-					
-				} ).catch( this._onError.bind( this ) );
-			}).catch( this._onError.bind( this ));
+
+				}).catch(this._onError.bind(this));
+			}).catch(this._onError.bind(this));
 		}
 
 	}
-	
-	_buildState( outcomes, lockedOutcomes, assessedOutcomes, registrySources, parent ) {
-		return outcomes.reduce( ( acc, outcome ) => {
-			this._dataState.outcomesMap.set( outcome.id, outcome );
 
-			const isAssessed = !outcome.children.length && assessedOutcomes.has( outcome.id );
-			const isLinked = ( this._outcomeIsLinked( outcome ) && this._outcomeIsCourseLevel( outcome, registrySources ) )
-				|| lockedOutcomes.has( outcome.id );
-			const isLocked = lockedOutcomes.has( outcome.id );
+	_buildState(outcomes, lockedOutcomes, assessedOutcomes, registrySources, parent) {
+		return outcomes.reduce((acc, outcome) => {
+			this._dataState.outcomesMap.set(outcome.id, outcome);
 
-			const stateNode = createNode( TreeBehaviour.CascadesDown, {
+			const isAssessed = !outcome.children.length && assessedOutcomes.has(outcome.id);
+			const isLinked = (this._outcomeIsLinked(outcome) && this._outcomeIsCourseLevel(outcome, registrySources))
+				|| lockedOutcomes.has(outcome.id);
+			const isLocked = lockedOutcomes.has(outcome.id);
+
+			const stateNode = createNode(TreeBehaviour.CascadesDown, {
 				outcomeId: outcome.id,
 				parent: parent,
 				children: null, // gets set after children are processed
@@ -339,12 +339,12 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 				disabled: isLocked || !isLinked
 			});
 
-			stateNode.children = this._buildState( outcome.children, lockedOutcomes, assessedOutcomes, registrySources, stateNode );
-			stateNode.disabled |= stateNode.children.some( childNode => childNode.disabled );
-			stateNode.hasLinkedDescendant = isLinked || stateNode.children.some( childNode => childNode.hasLinkedDescendant );
+			stateNode.children = this._buildState(outcome.children, lockedOutcomes, assessedOutcomes, registrySources, stateNode);
+			stateNode.disabled |= stateNode.children.some(childNode => childNode.disabled);
+			stateNode.hasLinkedDescendant = isLinked || stateNode.children.some(childNode => childNode.hasLinkedDescendant);
 
-			if ( stateNode.hasLinkedDescendant ) {
-				acc.push( stateNode );
+			if (stateNode.hasLinkedDescendant) {
+				acc.push(stateNode);
 			}
 
 			return acc;
@@ -355,41 +355,41 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 	 * Build optimized list of objectiveIds to unlink. If parent is being unlinked, it
 	 * is implied that children are also being unlinked.
 	 */
-	_buildUnlinkList( stateNodes ) {
+	_buildUnlinkList(stateNodes) {
 		const toUnlink = [];
 
-		stateNodes.forEach( node => {
-			if ( node.checkboxState === CheckboxState.CHECKED ) {
-				toUnlink.push( node.outcomeId );
-			} else if ( node.checkboxState === CheckboxState.PARTIAL ) {
-				this._buildUnlinkList( node.children ).forEach( child => toUnlink.push( child ) );
+		stateNodes.forEach(node => {
+			if (node.checkboxState === CheckboxState.CHECKED) {
+				toUnlink.push(node.outcomeId);
+			} else if (node.checkboxState === CheckboxState.PARTIAL) {
+				this._buildUnlinkList(node.children).forEach(child => toUnlink.push(child));
 			}
-		} );
+		});
 
 		return toUnlink;
 	}
 
-	_getAssessedSelected( stateNodes ) {
+	_getAssessedSelected(stateNodes) {
 		const assessed = [];
 
-		stateNodes.forEach( node => {
-			if ( node.checkboxState === CheckboxState.CHECKED && node.assessed ) {
-				assessed.push( this._dataState.outcomesMap.get( node.outcomeId ) );
+		stateNodes.forEach(node => {
+			if (node.checkboxState === CheckboxState.CHECKED && node.assessed) {
+				assessed.push(this._dataState.outcomesMap.get(node.outcomeId));
 			}
 
-			if ( node.checkboxState !== CheckboxState.NOT_CHECKED ) {
-				this._getAssessedSelected( node.children ).forEach( child => assessed.push( child ) );
+			if (node.checkboxState !== CheckboxState.NOT_CHECKED) {
+				this._getAssessedSelected(node.children).forEach(child => assessed.push(child));
 			}
-		} );
+		});
 
 		return assessed;
 	}
-	
-	_unlink() {
-		const assessedSelected = this._getAssessedSelected( this._dataState.stateNodes );
-		const toUnlink = this._buildUnlinkList( this._dataState.stateNodes );
 
-		if ( !toUnlink.length ) {
+	_unlink() {
+		const assessedSelected = this._getAssessedSelected(this._dataState.stateNodes);
+		const toUnlink = this._buildUnlinkList(this._dataState.stateNodes);
+
+		if (!toUnlink.length) {
 			this._close();
 			return;
 		}
@@ -407,16 +407,16 @@ class UnlinkOutcomesPicker extends  LocalizeMixin(LitElement) {
 			)
 		);
 	}
-	
+
 	_close() {
 		this.dispatchEvent(
 			new CustomEvent(
 				'd2l-unlink-outcomes-picker-cancel',
-				{ bubbles: false } 
+				{ bubbles: false }
 			)
 		);
 	}
-	
-} 
 
-customElements.define( 'd2l-unlink-outcomes-picker', UnlinkOutcomesPicker );
+}
+
+customElements.define('d2l-unlink-outcomes-picker', UnlinkOutcomesPicker);
